@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\EnemyProperties.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\EnemyPathing.cs" />
+    <Compile Include="Assets\Scripts\EnemyStealthAI.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Drag_and_Drop.cs" />
   </ItemGroup>
