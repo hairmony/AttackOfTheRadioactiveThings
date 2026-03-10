@@ -99,7 +99,7 @@ public class Turret : MonoBehaviour
             for (int i = 1; i < hits.Length; i++)
             {
                 comparisonScript = hits[i].collider.gameObject.GetComponent<EnemyMovement>();
-                if (comparisonScript.GetPathDist() > targetScript.GetPathDist())
+                if (comparisonScript.GetPathDist() < targetScript.GetPathDist())
                 {
                     target = hits[i].collider.gameObject;
                     targetScript = comparisonScript;
