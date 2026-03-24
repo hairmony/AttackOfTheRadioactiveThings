@@ -112,7 +112,8 @@ public class EnemyPathing : MonoBehaviour
             foreach (Vector2 pos in cellsToSearch)
             {
                 Cell c = cells[pos];
-                if (c.fCost < cells[cellToSearch].fCost || c.fCost == cells[cellToSearch].fCost && c.hCost == cells[cellToSearch].hCost)
+                if (c.fCost < cells[cellToSearch].fCost || c.fCost == cells[cellToSearch].fCost 
+                    && c.hCost == cells[cellToSearch].hCost)
                 {
                     cellToSearch = pos;
                 }

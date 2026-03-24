@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     public float moveY;
     public bool isGrounded = true;
     public bool canMove = true;
-    private Vector2 lastMoveDirection = Vector2.right; // Default to right
 
     [Header("Relative Movement")]
     [SerializeField] private float rotationSpeed = 10f; // Degrees per second
@@ -66,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         if (canMove && !isRolling)
             PlayerMoveKeyboard();
 
-        if (moveX != 0 && !isRolling) 
+        if (moveX != 0 && !isRolling)
             sr.flipX = moveX < 0;
 
         ApplyRotation();
@@ -120,11 +119,6 @@ public class PlayerMovement : MonoBehaviour
         moveY = Input.GetAxisRaw("Vertical");
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
 
-        if (moveDirection != Vector2.zero)
-        {
-            lastMoveDirection = moveDirection;
-        }
-
         float velocity = moveForce;
 
         if (isSlowing)
@@ -160,11 +154,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveX != 0 || moveY != 0)
         {
-            // Where player WANTs to look
             float targetAngle = Mathf.Atan2(moveY, moveX) * Mathf.Rad2Deg;
-            // Where player's currently looking
             float currentAngle = transform.eulerAngles.z;
-
             float smoothAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.unscaledDeltaTime);
             transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
         }
@@ -198,15 +189,8 @@ public class PlayerMovement : MonoBehaviour
         rollTimer = rollDuration;
         rollCooldownTimer = rollCooldown;
 
-        float h = controls.horizontalInput;
-        float v = Input.GetAxisRaw("Vertical");
-        rollDirection = new Vector2(h, v).normalized;
-
-        // Rolling while not moving
-        if (rollDirection == Vector2.zero)
-        {
-            rollDirection = lastMoveDirection;
-        }
+        // Same axis ApplyRotation uses: local +X follows movement, so roll matches facing at any angle.
+        rollDirection = (Vector2)transform.right;
 
         collider.size = rollColliderSize;
         collider.offset = rollColliderOffset;
