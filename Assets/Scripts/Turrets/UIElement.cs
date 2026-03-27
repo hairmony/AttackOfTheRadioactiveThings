@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Drag_and_Drop : MonoBehaviour
+public class UIElement : MonoBehaviour
 {
 
     [Header("References")]

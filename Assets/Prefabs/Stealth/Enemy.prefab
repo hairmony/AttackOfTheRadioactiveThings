@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 7628860342703350095}
   - component: {fileID: 784061479026206539}
   - component: {fileID: 3208347000967141564}
+  - component: {fileID: 454785287512557261}
+  - component: {fileID: 7347064281203132606}
+  - component: {fileID: 8421889992958612716}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -29,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 2914864212932273066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.18725, y: -0.88072, z: 0}
+  m_LocalPosition: {x: -3.66687, y: -0.15021, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -170,8 +173,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad352f5442d9d9844a1f66e85af7407d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EPathing
-  health: 10
+  patrolPath: {fileID: 0}
+  autoFindPathFindingByName: 1
+  pathFindingObjectName: PathFinding
   speed: 5
   reachDistance: 0.1
+  health: 10
   togglePathDist: 0
   functionDelaySeconds: 1
+  showPatrolPathGizmos: 1
+  gizmoPatrolTravelColor: {r: 1, g: 0.85, b: 0.2, a: 0.95}
+  gizmoStoredPathColor: {r: 0.35, g: 0.65, b: 1, a: 0.35}
+  gizmoWaypointRadius: 0.12
+--- !u!114 &454785287512557261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99044aa9bccc5468af67e8d58071a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStealthVision
+  playerTag: Player
+  visionRange: 12
+  visionAngleDegrees: 70
+  detectionRangeInset: 0.1
+  detectionAngleInsetDegrees: 2
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  calmConeColor: {r: 0, g: 0.22745098, b: 1, a: 0.25}
+  suspiciousFlashColor: {r: 1, g: 0.55, b: 0, a: 0.55}
+  searchConeColor: {r: 1, g: 0.9, b: 0, a: 0.35}
+  coneMeshSegments: 24
+  coneSortingLayer: Default
+  coneSortingOrder: -10
+  coneMaterial: {fileID: 0}
+  clipConeAgainstObstacles: 1
+  coneClipMask:
+    serializedVersion: 2
+    m_Bits: 0
+  coneClipPadding: 0
+  ignoreTriggerCollidersForConeClip: 1
+  debugDrawConeRays: 0
+  debugRayNoHitColor: {r: 0.2, g: 1, b: 0.2, a: 0.8}
+  debugRayHitColor: {r: 1, g: 0.2, b: 0.2, a: 0.95}
+--- !u!114 &7347064281203132606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60f646ff0a6bd34d9327603d08fd443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  chaseSpeed: 3.5
+  chaseStopDistance: 0.15
+  chaseTurnSpeed: 90
+  suspiciousTurnSpeed: 30
+  searchSpeedMultiplier: 0.6
+  searchArrivalDistance: 0.35
+  scanSpeed: 55
+  scanHalfAngle: 50
+--- !u!114 &8421889992958612716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c96d4d21694f164583659fed2fc011f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
+  suspiciousDuration: 4
+  coneFlashFrequency: 8
+  searchDuration: 7
+  attackRange: 0.65
+  attackDamage: 1
+  attackInterval: 1
+  patrolBehaviour: {fileID: 0}
+  onEnterSuspicious:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnterSearch:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnterChase:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnIdle:
+    m_PersistentCalls:
+      m_Calls: []

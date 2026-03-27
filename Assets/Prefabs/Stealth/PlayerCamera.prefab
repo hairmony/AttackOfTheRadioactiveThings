@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1510119788437386404}
   m_Layer: 0
   m_Name: PlayerCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
-  UpdateMethod: 2
+  UpdateMethod: 1
   BlendUpdateMethod: 1
   LensModeOverride:
     Enabled: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
       Size: {x: 0.225, y: 0.35}
     HardLimits:
       Enabled: 1
-      Size: {x: 0.65, y: 0.8}
+      Size: {x: 0.35, y: 0.55}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
@@ -276,5 +276,5 @@ MonoBehaviour:
   Lookahead:
     Enabled: 1
     Time: 0.85
-    Smoothing: 1
+    Smoothing: 5
     IgnoreY: 0
