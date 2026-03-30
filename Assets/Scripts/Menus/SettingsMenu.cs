@@ -7,6 +7,7 @@ using TMPro;
 /// Wire UI controls here (sliders, toggles, dropdown). Optionally assign an AudioMixer;
 /// expose float params named like masterParamName (dB) for each group.
 /// </summary>
+[DefaultExecutionOrder(-100)]
 public class SettingsMenu : MonoBehaviour
 {
     [Header("UI — optional, assign what you use")]
@@ -23,10 +24,66 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private string musicMixerParameter = "MusicVol";
     [SerializeField] private string sfxMixerParameter = "SfxVol";
 
+    private void Awake()
+    {
+        TryBindSlidersFromHierarchy();
+    }
+
     private void OnEnable()
     {
         GameSettings.EnsureLoaded();
+        TryBindSlidersFromHierarchy();
+        WireToggleHandlers();
         RefreshUIFromSettings();
+    }
+
+    private void OnDisable()
+    {
+        UnwireToggleHandlers();
+    }
+
+    private void WireToggleHandlers()
+    {
+        if (fullscreenToggle != null)
+        {
+            fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
+            fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
+        }
+        if (vsyncToggle != null)
+        {
+            vsyncToggle.onValueChanged.RemoveListener(OnVsyncChanged);
+            vsyncToggle.onValueChanged.AddListener(OnVsyncChanged);
+        }
+    }
+
+    private void UnwireToggleHandlers()
+    {
+        if (fullscreenToggle != null)
+            fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
+        if (vsyncToggle != null)
+            vsyncToggle.onValueChanged.RemoveListener(OnVsyncChanged);
+    }
+
+    /// <summary>Bind sliders by name when references are missing (SettingsManager is not parented under the canvas).</summary>
+    private void TryBindSlidersFromHierarchy()
+    {
+        if (masterSlider != null && musicSlider != null && sfxSlider != null)
+            return;
+        foreach (var s in FindObjectsByType<Slider>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            switch (s.gameObject.name)
+            {
+                case "MasterSlider":
+                    if (masterSlider == null) masterSlider = s;
+                    break;
+                case "MusicSlider":
+                    if (musicSlider == null) musicSlider = s;
+                    break;
+                case "SFXSlider":
+                    if (sfxSlider == null) sfxSlider = s;
+                    break;
+            }
+        }
     }
 
     public void RefreshUIFromSettings()

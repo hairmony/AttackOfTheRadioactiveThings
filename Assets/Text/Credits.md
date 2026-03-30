@@ -1,58 +1,109 @@
-# Attack Of The Radioactive Things
+## Mishaal Studios
 
-## By Mishaal Studios
+presents
+
+# Attack of the Radioactive Things
 
 
 
-### Management
 
-#### Project And Documentation Manager
+
+
+
+
+
+
+
+
+
+
+
+### MANAGEMENT
+
+
+
+#### Project Manager
 
 Hari Vallath
 
+#### Pizza Manager
+
+Abedalrhman Alkhateeb
 
 
-### Programming
 
-#### Gameplay Programming – Stealth
+
+
+
+### DEVELOPMENT
+
+
+
+#### Gameplay Programmer – Stealth
 
 Hari Vallath
 
-#### Gameplay Programming – Tower-Defense
+#### Gameplay Programmers – Tower-Defense
 
 Kego Wigwas
 
 Mishaal Patel
 
-#### UI Programming
+#### Enemy AI Programmer
 
 Hari Vallath
 
-
-
-### Design
-
-#### Systems Design
-
-Hari Vallath
-
-#### Level Design
+#### Pathfinding Programmer
 
 Kego Wigwas
 
-#### Narrative Design
+#### Turret Designer
 
 Mishaal Patel
 
-#### UI Design
+#### Save Data Manager
+
+Hari Vallath
+
+#### UI Programmer
 
 Hari Vallath
 
 
 
-### Art
 
-#### Art Direction
+
+
+### DESIGN
+
+
+
+#### Systems Designer
+
+Hari Vallath
+
+#### Level Designer
+
+Kego Wigwas
+
+#### Narrative Designer
+
+Mishaal Patel
+
+#### UI Designer
+
+Hari Vallath
+
+
+
+
+
+
+### GRAPHICS
+
+
+
+#### Creative Director
 
 Hari Vallath
 
@@ -72,15 +123,27 @@ Kego Wigwas
 
 Kego Wigwas
 
+Hari Vallath
 
 
-### Music
+
+
+
+
+### MUSIC
+
+
 
 TBD
 
 
 
-### Quality Assurance
+
+
+
+### QUALITY ASSURANCE
+
+
 
 #### QA Analyst
 
@@ -90,7 +153,12 @@ Mishaal Patel
 
 
 
-### Technology Stack
+
+
+
+### TECHNOLOGY STACK
+
+
 
 Game Engine – Unity
 
@@ -98,15 +166,17 @@ Programming – Visual Studio 2022
 
 
 
-Lakehead University
-
-Comp-4432 Advanced Game Programming Project
-
-Dr. Abedalrhman Alkhateeb
-
-2026
 
 
 
+Created for
+
+##### Lakehead University
+
+##### COMP-4432 Advanced Game Programming Project
+
+##### Dr. Abedalrhman Alkhateeb
+
+##### 2026
 
 

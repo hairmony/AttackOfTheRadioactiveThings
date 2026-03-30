@@ -23,10 +23,12 @@ public class EnemyVision : MonoBehaviour
     [SerializeField] private Color calmConeColor = new Color(1f, 0.20f, 0.20f, 0.25f);
     [SerializeField] private Color suspiciousFlashColor = new Color(1f, 0.55f, 0.00f, 0.55f);
     [SerializeField] private Color searchConeColor = new Color(1f, 0.90f, 0.00f, 0.35f);
+    [SerializeField] private Color chaseConeColor = new Color(1f, 0.08f, 0.08f, 0.55f);
 
     public Color CalmConeColor => calmConeColor;
     public Color SuspiciousFlashColor => suspiciousFlashColor;
     public Color SearchConeColor => searchConeColor;
+    public Color ChaseConeColor => chaseConeColor;
 
     [Header("Cone Mesh")]
     [SerializeField] private int coneMeshSegments = 24;

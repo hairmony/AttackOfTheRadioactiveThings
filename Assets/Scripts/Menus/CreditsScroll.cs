@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,9 @@ public class CreditsScroll : MonoBehaviour
 
     [SerializeField] bool useUnscaledTime = true;
 
+    [Tooltip("When the last line has scrolled past the top of the visible area, snap back to the start.")]
+    [SerializeField] bool loop = true;
+
     [Header("Scrolling background (RawImage)")]
     [SerializeField] RawImage tiledBackground;
     [SerializeField] Vector2 uvScrollPerSecond;
@@ -42,6 +46,7 @@ public class CreditsScroll : MonoBehaviour
     bool _hasBackgroundUvBase;
     Coroutine _resetCo;
     bool _positionReady;
+    Vector2[] _parallaxStartAnchored;
 
     void Awake()
     {
@@ -88,7 +93,24 @@ public class CreditsScroll : MonoBehaviour
         }
 
         ApplyStartPosition();
+        CaptureParallaxStart();
         _positionReady = true;
+    }
+
+    void CaptureParallaxStart()
+    {
+        if (parallaxLayers == null || parallaxLayers.Length == 0)
+        {
+            _parallaxStartAnchored = null;
+            return;
+        }
+
+        _parallaxStartAnchored = new Vector2[parallaxLayers.Length];
+        for (int i = 0; i < parallaxLayers.Length; i++)
+        {
+            if (parallaxLayers[i] == null) continue;
+            _parallaxStartAnchored[i] = parallaxLayers[i].anchoredPosition;
+        }
     }
 
     void ApplyStartPosition()
@@ -127,6 +149,60 @@ public class CreditsScroll : MonoBehaviour
 
     RectTransform TargetContentRect => creditsContent != null ? creditsContent : transform as RectTransform;
 
+    void JumpToStart()
+    {
+        ApplyStartPosition();
+        ResetBackgroundUv();
+
+        if (_parallaxStartAnchored == null || parallaxLayers == null) return;
+
+        for (int i = 0; i < parallaxLayers.Length && i < _parallaxStartAnchored.Length; i++)
+        {
+            if (parallaxLayers[i] == null) continue;
+            parallaxLayers[i].anchoredPosition = _parallaxStartAnchored[i];
+        }
+    }
+
+    /// <summary>
+    /// Bottom of visible credits in <paramref name="view"/>'s local space. Uses TMP <see cref="TMP_Text.textBounds"/>
+    /// so we match drawn text, not the RectTransform rect (TMP often keeps a short rect while text overflows).
+    /// </summary>
+    static float ContentBottomYInViewLocal(RectTransform content, RectTransform view)
+    {
+        var tmp = content.GetComponent<TMP_Text>();
+        if (tmp != null)
+        {
+            tmp.ForceMeshUpdate(ignoreActiveState: true);
+            Bounds tb = tmp.textBounds;
+            if (tb.size.sqrMagnitude < 1e-6f)
+                return float.NegativeInfinity;
+
+            var localBottom = new Vector3(tb.center.x, tb.min.y, tb.center.z);
+            var worldBottom = tmp.transform.TransformPoint(localBottom);
+            return view.InverseTransformPoint(worldBottom).y;
+        }
+
+        var c = new Vector3[4];
+        content.GetWorldCorners(c);
+        float minY = float.MaxValue;
+        for (int i = 0; i < 4; i++)
+            minY = Mathf.Min(minY, view.InverseTransformPoint(c[i]).y);
+        return minY;
+    }
+
+    bool CreditsFullyPastViewportTop()
+    {
+        var content = TargetContentRect;
+        var view = visibleArea != null ? visibleArea : content?.parent as RectTransform;
+        if (content == null || view == null) return false;
+
+        float contentBottomY = ContentBottomYInViewLocal(content, view);
+        if (float.IsNegativeInfinity(contentBottomY))
+            return false;
+
+        return contentBottomY >= view.rect.yMax;
+    }
+
     void Update()
     {
         if (!_positionReady)
@@ -150,6 +226,9 @@ public class CreditsScroll : MonoBehaviour
 
         ScrollBackgroundUv(dt);
         ScrollParallax(dt);
+
+        if (loop && CreditsFullyPastViewportTop())
+            JumpToStart();
     }
 
     void ScrollBackgroundUv(float dt)

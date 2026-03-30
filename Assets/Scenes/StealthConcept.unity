@@ -235,13 +235,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 399721682388381196, guid: 17ce79a842126e44198dad739da81e08, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 756757891}
   m_SourcePrefab: {fileID: 100100000, guid: 17ce79a842126e44198dad739da81e08, type: 3}
 --- !u!4 &705014380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7763587112786788088, guid: 907aa76e341de534fb264211f4008d78, type: 3}
   m_PrefabInstance: {fileID: 205553193}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &756757885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 399721682388381196, guid: 17ce79a842126e44198dad739da81e08, type: 3}
+  m_PrefabInstance: {fileID: 227373028}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &756757891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756757885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d0c9f9c042aa3429908d2232a1bf59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsAudioBootstrap
+  mixer: {fileID: 24100000, guid: df74c75f96eadbf41adf237827007ef5, type: 2}
+  masterParam: MasterVol
+  musicParam: MusicVol
+  sfxParam: SfxVol
+  sfxOutputGroup: {fileID: -1231956911201580566, guid: df74c75f96eadbf41adf237827007ef5, type: 2}
+  musicOutputGroup: {fileID: -3345614666380507768, guid: df74c75f96eadbf41adf237827007ef5, type: 2}
 --- !u!1001 &1358229007
 PrefabInstance:
   m_ObjectHideFlags: 0

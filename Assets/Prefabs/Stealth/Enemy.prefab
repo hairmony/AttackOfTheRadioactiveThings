@@ -205,9 +205,10 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 512
-  calmConeColor: {r: 0, g: 0.22745098, b: 1, a: 0.25}
-  suspiciousFlashColor: {r: 1, g: 0.55, b: 0, a: 0.55}
-  searchConeColor: {r: 1, g: 0.9, b: 0, a: 0.35}
+  calmConeColor: {r: 0.6745098, g: 0.82122153, b: 1, a: 0.25}
+  suspiciousFlashColor: {r: 1, g: 0.6862745, b: 0, a: 0.55}
+  searchConeColor: {r: 1, g: 0.684497, b: 0, a: 0.35}
+  chaseConeColor: {r: 1, g: 0.08, b: 0.08, a: 0.55}
   coneMeshSegments: 24
   coneSortingLayer: Default
   coneSortingOrder: -10
@@ -233,14 +234,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60f646ff0a6bd34d9327603d08fd443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  chaseSpeed: 3.5
+  chaseSpeed: 3.8
   chaseStopDistance: 0.15
   chaseTurnSpeed: 90
   suspiciousTurnSpeed: 30
   searchSpeedMultiplier: 0.6
   searchArrivalDistance: 0.35
   scanSpeed: 55
-  scanHalfAngle: 50
+  scanHalfAngle: 90
 --- !u!114 &8421889992958612716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,12 +254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c96d4d21694f164583659fed2fc011f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
-  suspiciousDuration: 4
+  suspiciousDuration: 1.1
   coneFlashFrequency: 8
-  searchDuration: 7
+  searchDuration: 9
   attackRange: 0.65
   attackDamage: 1
   attackInterval: 1
+  chaseLoseSightDuration: 10.6
   patrolBehaviour: {fileID: 0}
   onEnterSuspicious:
     m_PersistentCalls:
@@ -272,3 +274,14 @@ MonoBehaviour:
   onReturnIdle:
     m_PersistentCalls:
       m_Calls: []
+  playerSpottedClips:
+  - {fileID: 8300000, guid: 94f605b5810ce4c49a8748282d9f94d8, type: 3}
+  chaseStartClips:
+  - {fileID: 8300000, guid: 076d6c9d3b9362c43bb366c6df901060, type: 3}
+  chaseEndClips: []
+  reSpottedAfterChaseClips: []
+  audioSource: {fileID: 0}
+  spottedVolume: 1
+  chaseStartVolume: 1
+  chaseEndVolume: 1
+  reSpottedAfterChaseVolume: 1

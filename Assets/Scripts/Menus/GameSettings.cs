@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 /// <summary>
-/// Central game settings loaded/saved via PlayerPrefs. Display applies on startup;
-/// assign an AudioMixer (Expose Volume as float in dB) on a bootstrap object for sound.
+/// Central game settings: preferred load from <see cref="GameSave"/> JSON when present,
+/// otherwise PlayerPrefs. <see cref="Save"/> flushes both. Display applies on startup;
+/// assign an AudioMixer on a bootstrap object for sound.
 /// </summary>
 public static class GameSettings
 {
@@ -39,12 +40,72 @@ public static class GameSettings
     public static void EnsureLoaded()
     {
         if (_loaded) return;
+        if (GameSave.TryLoad(out GameSaveData file) && file.settings != null
+            && !LooksLikeJsonUtilityEmptySettings(file.settings))
+        {
+            ApplyFromSaveSettings(file.settings);
+            return;
+        }
+
+        LoadSettingsFromPlayerPrefs();
+    }
+
+    /// <summary>Copies current volumes/display fields (after <see cref="EnsureLoaded"/>) into a save payload.</summary>
+    public static void CopyRuntimeStateTo(SettingsSaveData s)
+    {
+        if (s == null) return;
+        EnsureLoaded();
+        s.settingsFormat = 1;
+        s.masterVolume = _master;
+        s.musicVolume = _music;
+        s.sfxVolume = _sfx;
+        s.fullscreen = _fullscreen;
+        s.vsync = _vsync;
+        s.qualityLevel = _quality >= 0 ? _quality : QualitySettings.GetQualityLevel();
+    }
+
+    /// <summary>
+    /// JsonUtility leaves omitted fields at type defaults. A <c>settings: {}</c> object becomes all-zero audio
+    /// and false/false/0 for display, which reads as broken rather than user intent.
+    /// </summary>
+    private static bool LooksLikeJsonUtilityEmptySettings(SettingsSaveData s)
+    {
+        if (s.settingsFormat >= 1)
+            return false;
+        const float tol = 1e-5f;
+        bool allAudioZero = Mathf.Abs(s.masterVolume) < tol && Mathf.Abs(s.musicVolume) < tol && Mathf.Abs(s.sfxVolume) < tol;
+        if (!allAudioZero)
+            return false;
+        return !s.fullscreen && !s.vsync && s.qualityLevel == 0;
+    }
+
+    private static void LoadSettingsFromPlayerPrefs()
+    {
         _master = PlayerPrefs.GetFloat(KeyMaster, 1f);
         _music = PlayerPrefs.GetFloat(KeyMusic, 1f);
         _sfx = PlayerPrefs.GetFloat(KeySfx, 1f);
         _fullscreen = PlayerPrefs.GetInt(KeyFullscreen, Screen.fullScreen ? 1 : 0) == 1;
         _vsync = PlayerPrefs.GetInt(KeyVsync, QualitySettings.vSyncCount > 0 ? 1 : 0) == 1;
         _quality = PlayerPrefs.GetInt(KeyQuality, QualitySettings.GetQualityLevel());
+        _loaded = true;
+    }
+
+    private static void ApplyFromSaveSettings(SettingsSaveData s)
+    {
+        int maxQ = Mathf.Max(0, QualitySettings.names.Length - 1);
+        _master = Mathf.Clamp01(s.masterVolume);
+        _music = Mathf.Clamp01(s.musicVolume);
+        _sfx = Mathf.Clamp01(s.sfxVolume);
+        _fullscreen = s.fullscreen;
+        _vsync = s.vsync;
+        _quality = Mathf.Clamp(s.qualityLevel, 0, maxQ);
+
+        PlayerPrefs.SetFloat(KeyMaster, _master);
+        PlayerPrefs.SetFloat(KeyMusic, _music);
+        PlayerPrefs.SetFloat(KeySfx, _sfx);
+        PlayerPrefs.SetInt(KeyFullscreen, _fullscreen ? 1 : 0);
+        PlayerPrefs.SetInt(KeyVsync, _vsync ? 1 : 0);
+        PlayerPrefs.SetInt(KeyQuality, _quality);
         _loaded = true;
     }
 
@@ -87,7 +148,9 @@ public static class GameSettings
 
     public static void Save()
     {
+        EnsureLoaded();
         PlayerPrefs.Save();
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void ResetToDefaults()
@@ -112,6 +175,7 @@ public static class GameSettings
         QualitySettings.SetQualityLevel(_quality);
         QualitySettings.vSyncCount = _vsync ? 1 : 0;
         Screen.fullScreen = _fullscreen;
+        QualitySettings.vSyncCount = _vsync ? 1 : 0;
     }
 
     /// <summary>
@@ -131,10 +195,17 @@ public static class GameSettings
         SetMixerGroupVolume(mixer, sfxParam, _sfx);
     }
 
+    /// <summary>
+    /// When all sliders are at 100%, multiply linear gain by this before dB mapping so the stack
+    /// (Master × Music/SFX) is not screaming at unity gain. Tune 0.35–0.55 for overall loudness.
+    /// </summary>
+    internal const float MixerFullSliderLinearCap = 0.4f;
+
     private static void SetMixerGroupVolume(AudioMixer mixer, string parameter, float linear01)
     {
         if (string.IsNullOrEmpty(parameter)) return;
-        float dB = linear01 > 0.0001f ? 20f * Mathf.Log10(linear01) : -80f;
+        float t = Mathf.Clamp01(linear01) * MixerFullSliderLinearCap;
+        float dB = t > 0.0001f ? 20f * Mathf.Log10(t) : -80f;
         mixer.SetFloat(parameter, dB);
     }
 }
