@@ -22,9 +22,6 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float reachDistance = 0.05f;
 
-    [Header("Health")]
-    [SerializeField] private float health = 10f;
-
     [Header("Debug")]
     [SerializeField] private bool togglePathDist = false;
     [SerializeField] private float functionDelaySeconds = 2f;
@@ -86,12 +83,6 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Move();
     }
 
@@ -121,11 +112,6 @@ public class EnemyPatrol : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
     }
 
     public float GetPathDist()
