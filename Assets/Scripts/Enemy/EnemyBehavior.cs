@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,17 +11,18 @@ using UnityEngine.Events;
 ///
 ///  IDLE        Passive. Vision cone is calm red.
 ///
-///  SUSPICIOUS  Player is visible. Alert timer builds. Cone flashes orange.
+///  SUSPICIOUS  Player is visible. Alert timer builds. Cone flashes orange. Random from playerSpottedClips.
 ///              Guard turns slowly toward the player.
 ///              → Player hides before timer fills  : enters SEARCH
 ///              → Timer fills                      : enters CHASE
 ///
 ///  SEARCH      Player was lost. Guard walks to the last-known position, then
-///              sweeps its cone. Cone turns yellow.
-///              → Player re-spotted                : back to SUSPICIOUS
+///              sweeps its cone. Cone turns yellow. Random chaseEndClips if search started after CHASE.
+///              → Player re-spotted                : back to SUSPICIOUS (optional reSpottedAfterChaseClips)
 ///              → Search timer runs out            : returns to IDLE
 ///
-///  CHASE       Full-speed pursuit + periodic attacks.
+///  CHASE       Full-speed pursuit + periodic attacks. Vision cone uses ChaseConeColor (strong red).
+///              Optional chaseStartClips. If the player stays outside the cone for chaseLoseSightDuration, returns to SEARCH.
 /// </summary>
 [RequireComponent(typeof(EnemyVision))]
 [RequireComponent(typeof(EnemyMovement))]
@@ -46,6 +47,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float attackRange = 0.65f;
     [SerializeField] private float attackDamage = 1f;
     [SerializeField] private float attackInterval = 1f;
+    [Tooltip("In Chase: if the player is outside the vision cone this long, enemy goes to Search.")]
+    [SerializeField] private float chaseLoseSightDuration = 10f;
 
     // ── Optional ─────────────────────────────────────────────────────────────
     [Header("Optional")]
@@ -60,6 +63,23 @@ public class EnemyAI : MonoBehaviour
     public UnityEvent onReturnIdle;
     //public AttackEvent onAttackPlayer = new AttackEvent();
 
+    // ── Audio ─────────────────────────────────────────────────────────────────
+    [Header("Audio")]
+    [Tooltip("Played when the player is spotted (Suspicious). Multiple = random each time.")]
+    [SerializeField] private AudioClip[] playerSpottedClips;
+    [Tooltip("When chase begins. Multiple = random.")]
+    [SerializeField] private AudioClip[] chaseStartClips;
+    [Tooltip("When chase ends (→ Search after cone timeout). Multiple = random.")]
+    [SerializeField] private AudioClip[] chaseEndClips;
+    [Tooltip("Re-spotted during Search that followed a chase. If none, uses Player Spotted Clips.")]
+    [SerializeField] private AudioClip[] reSpottedAfterChaseClips;
+    [Tooltip("Optional: play through this source. If unset, uses GameAudio SFX bus.")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] [Range(0f, 1f)] private float spottedVolume = 1f;
+    [SerializeField] [Range(0f, 1f)] private float chaseStartVolume = 1f;
+    [SerializeField] [Range(0f, 1f)] private float chaseEndVolume = 1f;
+    [SerializeField] [Range(0f, 1f)] private float reSpottedAfterChaseVolume = 1f;
+
     // ── Runtime ──────────────────────────────────────────────────────────────
     private EnemyVision _vision;
     private EnemyMovement _movement;
@@ -69,6 +89,8 @@ public class EnemyAI : MonoBehaviour
     private float _searchTimer;
     private Vector2 _lastKnownPos;
     private float _attackCooldown;
+    private float _chaseLoseSightTimer;
+    private bool _searchFollowedChase;
     private Coroutine _flashRoutine;
 
     public State CurrentState => _state;
@@ -152,6 +174,19 @@ public class EnemyAI : MonoBehaviour
     {
         if (_vision.PlayerTransform == null) return;
 
+        if (_vision.CanSeePlayer)
+            _chaseLoseSightTimer = 0f;
+        else
+        {
+            _chaseLoseSightTimer += Time.deltaTime;
+            if (_chaseLoseSightTimer >= chaseLoseSightDuration)
+            {
+                _chaseLoseSightTimer = 0f;
+                EnterSearch();
+                return;
+            }
+        }
+
         if (_attackCooldown > 0f)
             _attackCooldown -= Time.deltaTime;
 
@@ -169,6 +204,7 @@ public class EnemyAI : MonoBehaviour
     private void EnterIdle()
     {
         _state = State.Idle;
+        _searchFollowedChase = false;
         StopFlash();
         _vision.SetConeColor(_vision.CalmConeColor);
 
@@ -181,19 +217,28 @@ public class EnemyAI : MonoBehaviour
     private void EnterSuspicious()
     {
         bool fromIdle = _state == State.Idle;
+        bool fromSearchAfterChase = _state == State.Search && _searchFollowedChase;
+
         _state = State.Suspicious;
         _suspiciousTimer = 0f;
+        _searchFollowedChase = false;
 
         if (fromIdle && patrolBehaviour != null)
             patrolBehaviour.enabled = false;
 
         StartFlash();
+        if (fromSearchAfterChase && HasAnyClip(reSpottedAfterChaseClips))
+            PlayRandomOneShot(reSpottedAfterChaseClips, reSpottedAfterChaseVolume);
+        else
+            PlayRandomOneShot(playerSpottedClips, spottedVolume);
         onEnterSuspicious?.Invoke();
     }
 
     private void EnterSearch()
     {
+        bool fromChase = _state == State.Chase;
         _state = State.Search;
+        _searchFollowedChase = fromChase;
         _lastKnownPos = _vision.PlayerTransform.position;
         _searchTimer = searchDuration;
 
@@ -201,19 +246,68 @@ public class EnemyAI : MonoBehaviour
         StopFlash();
         _vision.SetConeColor(_vision.SearchConeColor);
 
+        if (fromChase)
+            PlayRandomOneShot(chaseEndClips, chaseEndVolume);
+
         onEnterSearch?.Invoke();
     }
 
     private void EnterChase()
     {
         _state = State.Chase;
+        _searchFollowedChase = false;
+        _chaseLoseSightTimer = 0f;
         StopFlash();
-        _vision.SetConeColor(_vision.CalmConeColor);
+        _vision.SetConeColor(_vision.ChaseConeColor);
 
         if (patrolBehaviour != null)
             patrolBehaviour.enabled = false;
 
+        PlayRandomOneShot(chaseStartClips, chaseStartVolume);
         onEnterChase?.Invoke();
+    }
+
+    private static bool HasAnyClip(AudioClip[] clips)
+    {
+        if (clips == null || clips.Length == 0) return false;
+        for (int i = 0; i < clips.Length; i++)
+        {
+            if (clips[i] != null) return true;
+        }
+        return false;
+    }
+
+    private void PlayRandomOneShot(AudioClip[] clips, float volume)
+    {
+        if (!HasAnyClip(clips)) return;
+        int count = 0;
+        for (int i = 0; i < clips.Length; i++)
+        {
+            if (clips[i] != null) count++;
+        }
+        int pick = Random.Range(0, count);
+        for (int i = 0; i < clips.Length; i++)
+        {
+            if (clips[i] == null) continue;
+            if (pick-- == 0)
+            {
+                PlayOneShot(clips[i], volume);
+                return;
+            }
+        }
+    }
+
+    private void PlayOneShot(AudioClip clip, float volume)
+    {
+        if (clip == null) return;
+        if (audioSource != null)
+        {
+            if (audioSource.outputAudioMixerGroup == null && GameAudio.SfxOutputGroup != null)
+                audioSource.outputAudioMixerGroup = GameAudio.SfxOutputGroup;
+            audioSource.PlayOneShot(clip, Mathf.Clamp01(volume));
+            return;
+        }
+        GameAudio.PlaySfx(clip, transform.position, volume);
     }
 
     // ────────────────────────────────────────────────────────────────────────
