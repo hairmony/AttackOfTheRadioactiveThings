@@ -1,11 +1,23 @@
-## Mishaal Studios
+<!--
+  Images: put sprites under Assets/Art/… (e.g. Assets/Art/Credits/logo.png).
+  Use a line by itself, path relative to Assets/Art. Optional size after first "|":
+    ![alt](Credits/logo)           → auto max width (panel)
+    ![alt](Credits/logo|420)       → width 420 UI units, height from aspect ratio
+    ![alt](Credits/logo|600x120)   → fixed layout box (width x height)
+
+  Editor loads via Assets/Art. Player builds need Resources (same logical path) or Addressables.
+-->
+
+## Single Spagetty Studios
 
 presents
 
-# Attack of the Radioactive Things
 
 
 
+
+
+![GameLogo](Art/Logo)
 
 
 
@@ -26,16 +38,59 @@ presents
 
 Hari Vallath
 
-#### Pizza Manager
+#### Team Members
 
-Abedalrhman Alkhateeb
+Kego Wigwas
+
+Hari Vallath
+
+Mishaal Patel
+
+#### Pizza Order Lead
+
+Dr. Abedalrhman Alkhateeb
 
 
 
 
 
 
-### DEVELOPMENT
+## NARRATIVE
+
+
+
+#### Narrative Director
+
+Mishaal Patel
+
+#### Casting Director
+
+Hari Vallath
+
+
+
+
+
+
+### CAST
+
+Radioactive Watcher – Talha Hasan
+
+Radioactive Sprinter – Nicholas Roy
+
+Radioactive Bulwark – TBD
+
+Soldier Scout – Kego Wigwas
+
+Soldier Commander – TBD
+<!-- Fix cast names -->
+
+
+
+
+
+
+## DEVELOPMENT
 
 
 
@@ -49,7 +104,7 @@ Kego Wigwas
 
 Mishaal Patel
 
-#### Enemy AI Programmer
+#### AI Programmer
 
 Hari Vallath
 
@@ -74,7 +129,7 @@ Hari Vallath
 
 
 
-### DESIGN
+## DESIGN
 
 
 
@@ -86,10 +141,6 @@ Hari Vallath
 
 Kego Wigwas
 
-#### Narrative Designer
-
-Mishaal Patel
-
 #### UI Designer
 
 Hari Vallath
@@ -99,7 +150,7 @@ Hari Vallath
 
 
 
-### GRAPHICS
+### ART DESIGN
 
 
 
@@ -115,7 +166,9 @@ Ausat Ali
 
 TBD
 
-#### Concept Artist
+#### Concept Artists
+
+Hari Vallath
 
 Kego Wigwas
 
@@ -125,16 +178,35 @@ Kego Wigwas
 
 Hari Vallath
 
+#### Additional Art
+
+Mona Lisa – Leonardo Da Vinci
+<!-- Add art asset names -->
 
 
 
 
 
-### MUSIC
+
+### SOUND DESIGN
 
 
 
-TBD
+#### Audio Director
+
+Hari Vallath
+
+#### Music
+
+Chiptune Heist Music – Bertsz
+
+Radioactive – Imagine Dragons
+<!-- This one's a joke, don't submit game with it -->
+
+#### Additional Audio
+
+Death Enemy 2 (from Left: Aliened) – Kego Wigwas
+<!-- Add audio asset names -->
 
 
 
@@ -153,16 +225,22 @@ Mishaal Patel
 
 
 
+#### Thank you, playtesters!
 
 
 
-### TECHNOLOGY STACK
 
 
+
+### TOOLS
+
+
+
+#### Technology Stack
 
 Game Engine – Unity
 
-Programming – Visual Studio 2022
+IDE – Visual Studio 2022
 
 
 
@@ -173,10 +251,10 @@ Created for
 
 ##### Lakehead University
 
-##### COMP-4432 Advanced Game Programming Project
+COMP-4432 Advanced Game Programming Project / COMP-4431 Advanced Project
 
-##### Dr. Abedalrhman Alkhateeb
+Dr. Abedalrhman Alkhateeb
 
-##### 2026
+April, 2026
 
 

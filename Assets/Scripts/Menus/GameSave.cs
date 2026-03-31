@@ -40,6 +40,7 @@ public static class GameSave
     /// <summary>Writes current in-memory <see cref="GameSettings"/> into the save file.</summary>
     public static void PersistSettingsFromRuntime()
     {
+        GameSettings.EnsureLoaded();
         GameSaveData data;
         TryLoad(out data);
         if (data == null)

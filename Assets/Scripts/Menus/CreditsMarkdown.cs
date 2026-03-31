@@ -8,10 +8,13 @@ using UnityEngine;
 /// </summary>
 public static class CreditsMarkdown
 {
+    static readonly Regex RxHtmlComment = new Regex(@"<!--[\s\S]*?-->", RegexOptions.Compiled);
     static readonly Regex RxHeading = new Regex(@"^(#{1,6})\s+(.+?)\s*#*\s*$", RegexOptions.Compiled);
     static readonly Regex RxBoldDouble = new Regex(@"\*\*(.+?)\*\*", RegexOptions.Compiled);
     static readonly Regex RxBoldUnder = new Regex(@"__(.+?)__", RegexOptions.Compiled);
     static readonly Regex RxCode = new Regex(@"`([^`]+)`", RegexOptions.Compiled);
+    /// <summary>Markdown <c>![alt](path)</c> — must run before <see cref="RxLink"/> or the brackets become a blue “link”.</summary>
+    static readonly Regex RxMarkdownImage = new Regex(@"!\[([^\]]*)\]\(([^)]+)\)", RegexOptions.Compiled);
     static readonly Regex RxLink = new Regex(@"\[([^\]]+)\]\(([^)]+)\)", RegexOptions.Compiled);
     static readonly Regex RxItalicStar = new Regex(@"(?<!\*)\*(?!\*)([^*]+?)(?<!\*)\*(?!\*)", RegexOptions.Compiled);
     static readonly Regex RxItalicUnder = new Regex(@"(?<![\w])_([^_\n]+)_(?![\w])", RegexOptions.Compiled);
@@ -22,9 +25,20 @@ public static class CreditsMarkdown
     /// </summary>
     static readonly string[] HeadingSizePercents = { "160%", "145%", "130%", "118%", "112%", "106%" };
 
+    /// <summary>Remove Markdown HTML-style comments (used before parsing image lines in <see cref="CreditsBlocks"/>).</summary>
+    public static string StripHtmlComments(string markdown)
+    {
+        if (string.IsNullOrEmpty(markdown)) return markdown;
+        if (markdown[0] == '\uFEFF')
+            markdown = markdown.Substring(1);
+        return RxHtmlComment.Replace(markdown, string.Empty);
+    }
+
     public static string ToTmp(string markdown)
     {
         if (string.IsNullOrEmpty(markdown)) return markdown;
+
+        markdown = RxHtmlComment.Replace(markdown, string.Empty);
 
         var sb = new StringBuilder(markdown.Length * 2);
         foreach (var segment in markdown.Split('\n'))
@@ -88,10 +102,18 @@ public static class CreditsMarkdown
         sb.Append("<size=").Append(pct).Append("><b>").Append(text).Append("</b></size>\n");
     }
 
-    /// <summary>Inline **bold**, *italic*, __bold__, _italic_, `code`, [label](url).</summary>
+    /// <summary>Inline images (alt only in TMP), **bold**, *italic*, `code`, [label](url).</summary>
     public static string ApplyInline(string line)
     {
         if (string.IsNullOrEmpty(line)) return line;
+
+        line = RxMarkdownImage.Replace(line, m =>
+        {
+            string alt = m.Groups[1].Value.Trim();
+            if (string.IsNullOrEmpty(alt))
+                return string.Empty;
+            return $"<size=92%><color=#AAAAAA><i>{EscapeTmpLiteral(alt)}</i></color></size>";
+        });
 
         line = RxCode.Replace(line, m => $"<color=#BBBBBB>{EscapeTmpLiteral(m.Groups[1].Value)}</color>");
         line = RxLink.Replace(line, m =>

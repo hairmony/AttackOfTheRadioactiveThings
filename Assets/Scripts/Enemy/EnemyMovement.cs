@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /// <summary>
 /// Handles all Rigidbody2D movement for the enemy.
@@ -29,6 +29,8 @@ public class EnemyMovement : MonoBehaviour
 
     // ── Private ──────────────────────────────────────────────────────────────
     private Rigidbody2D _body;
+
+    private Vector2 _sprinterStaleChaseTarget;
 
     // Scan state — reset by EnemyAI whenever search begins
     private bool _arrivedAtLastKnown;
@@ -64,6 +66,32 @@ public class EnemyMovement : MonoBehaviour
         if (dist <= chaseStopDistance) return;
 
         _body.MovePosition(_body.position + (to / dist) * (chaseSpeed * Time.fixedDeltaTime));
+    }
+
+    /// <summary>Planar move + turn (deploy / leave paths).</summary>
+    public void WalkTowards(Vector2 worldTarget, float moveSpeed, float turnSpeedDegreesPerSec)
+    {
+        Vector2 to = worldTarget - _body.position;
+        float dist = to.magnitude;
+        if (dist < 0.0001f) return;
+        to /= dist;
+        float targetDeg = Mathf.Atan2(-to.x, to.y) * Mathf.Rad2Deg;
+        _body.MoveRotation(Mathf.MoveTowardsAngle(
+            _body.rotation, targetDeg, turnSpeedDegreesPerSec * Time.fixedDeltaTime));
+        _body.MovePosition(_body.position + to * (moveSpeed * Time.fixedDeltaTime));
+    }
+
+    /// <summary>Call when entering chase so stale target starts at the player.</summary>
+    public void ResetSprinterStaleChase(Vector2 worldPosition) => _sprinterStaleChaseTarget = worldPosition;
+
+    /// <summary>
+    /// Chase toward a target that lags behind the real position — overshoots corners, easier to juke.
+    /// </summary>
+    public void ChasePlayerWithStaleTarget(Vector2 trueTarget, float maxApproachUnitsPerSecond)
+    {
+        float step = Mathf.Max(0.01f, maxApproachUnitsPerSecond) * Time.fixedDeltaTime;
+        _sprinterStaleChaseTarget = Vector2.MoveTowards(_sprinterStaleChaseTarget, trueTarget, step);
+        ChasePlayer(_sprinterStaleChaseTarget);
     }
 
     /// <summary>

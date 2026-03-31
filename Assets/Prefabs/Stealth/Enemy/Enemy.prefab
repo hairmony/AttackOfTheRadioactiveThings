@@ -1,0 +1,330 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2914864212932273066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8003711951970263043}
+  - component: {fileID: 5807021076996757932}
+  - component: {fileID: 7628860342703350095}
+  - component: {fileID: 784061479026206539}
+  - component: {fileID: 3208347000967141564}
+  - component: {fileID: 454785287512557261}
+  - component: {fileID: 7347064281203132606}
+  - component: {fileID: 8421889992958612716}
+  - component: {fileID: 3602747758012533136}
+  m_Layer: 6
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8003711951970263043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.66687, y: -0.15021, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5807021076996757932
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!70 &7628860342703350095
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.8, y: 0.8}
+  m_Direction: 0
+--- !u!50 &784061479026206539
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &3208347000967141564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad352f5442d9d9844a1f66e85af7407d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EPathing
+  patrolPath: {fileID: 0}
+  autoFindPathFindingByName: 1
+  pathFindingObjectName: PathFinding
+  speed: 5
+  reachDistance: 0.1
+  health: 10
+  togglePathDist: 0
+  functionDelaySeconds: 1
+  showPatrolPathGizmos: 1
+  gizmoPatrolTravelColor: {r: 1, g: 0.85, b: 0.2, a: 0.95}
+  gizmoStoredPathColor: {r: 0.35, g: 0.65, b: 1, a: 0.35}
+  gizmoWaypointRadius: 0.12
+--- !u!114 &454785287512557261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a99044aa9bccc5468af67e8d58071a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStealthVision
+  playerTag: Player
+  visionRange: 12
+  visionAngleDegrees: 70
+  detectionRangeInset: 0.1
+  detectionAngleInsetDegrees: 2
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  calmConeColor: {r: 0.6745098, g: 0.82122153, b: 1, a: 0.25}
+  suspiciousFlashColor: {r: 1, g: 0.6862745, b: 0, a: 0.55}
+  searchConeColor: {r: 1, g: 0.684497, b: 0, a: 0.35}
+  chaseConeColor: {r: 1, g: 0.08, b: 0.08, a: 0.55}
+  coneMeshSegments: 24
+  coneSortingLayer: Default
+  coneSortingOrder: -10
+  coneMaterial: {fileID: 0}
+  clipConeAgainstObstacles: 1
+  coneClipMask:
+    serializedVersion: 2
+    m_Bits: 0
+  coneClipPadding: 0
+  ignoreTriggerCollidersForConeClip: 1
+  debugDrawConeRays: 0
+  debugRayNoHitColor: {r: 0.2, g: 1, b: 0.2, a: 0.8}
+  debugRayHitColor: {r: 1, g: 0.2, b: 0.2, a: 0.95}
+--- !u!114 &7347064281203132606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60f646ff0a6bd34d9327603d08fd443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  chaseSpeed: 3.1
+  chaseStopDistance: 0.15
+  chaseTurnSpeed: 90
+  suspiciousTurnSpeed: 30
+  searchSpeedMultiplier: 0.6
+  searchArrivalDistance: 0.35
+  scanSpeed: 55
+  scanHalfAngle: 90
+--- !u!114 &8421889992958612716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c96d4d21694f164583659fed2fc011f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
+  suspiciousDuration: 1.1
+  coneFlashFrequency: 8
+  searchDuration: 9
+  attackRange: 0.65
+  attackDamage: 1
+  attackInterval: 1
+  chaseLoseSightDuration: 10.6
+  patrolBehaviour: {fileID: 0}
+  onEnterSuspicious:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnterSearch:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnterChase:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnIdle:
+    m_PersistentCalls:
+      m_Calls: []
+  playerSpottedClips:
+  - {fileID: 8300000, guid: 94f605b5810ce4c49a8748282d9f94d8, type: 3}
+  chaseStartClips:
+  - {fileID: 8300000, guid: 076d6c9d3b9362c43bb366c6df901060, type: 3}
+  chaseEndClips:
+  - {fileID: 8300000, guid: 5133b3501d60168418f32120f085079e, type: 3}
+  reSuspiciousClips:
+  - {fileID: 8300000, guid: afd93778013e79548be58958a2202f4d, type: 3}
+  - {fileID: 8300000, guid: 8241a049177d9b14a8de6d3bf5c3777f, type: 3}
+  - {fileID: 8300000, guid: 3fc2b438fdb9d0c4aa4275a3d21ac194, type: 3}
+  audioSource: {fileID: 0}
+  spottedVolume: 1
+  chaseStartVolume: 1
+  chaseEndVolume: 1
+  reSuspiciousVolume: 1
+--- !u!114 &3602747758012533136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914864212932273066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fc1bcba3293b74091e954036b38600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyArchetype
+  kind: 0
+  chaseSpeedMultiplier: 0.72
+  suspiciousTurnSpeedMultiplier: 1
+  searchSpeedMultiplier: 1
+  visionRangeMultiplier: 1.05
+  visionAngleMultiplier: 1
+  idleVisionConeSway: 1
+  idleSwayDegrees: 45
+  idleSwaySpeed: 1.1
+  sprinterPrefab: {fileID: 0}
+  sprinterReinforceChanceAfterFirstCycle: 0.45
+  sprinterReinforceMinCount: 1
+  sprinterReinforceMaxCount: 3
+  sprinterApproachRingMin: 1.1
+  sprinterApproachRingMax: 3.8
+  sprinterSweepOrbitRadius: 2.6
+  offscreenMarginWorld: 1.15
+  bulwarkPrefab: {fileID: 100100000, guid: 3a1e4d5a37a12464cb6f9d8f50f51235, type: 3}
+  bulwarksOnEnterChase: 1
+  sprinterSweepConeSwayDegrees: 8
+  sprinterSweepConeSwaySpeed: 1.15
+  sprinterSweepAngularSpeed: 52
+  sprinterDeployArriveDistance: 0.42
+  sprinterStaleChaseApproachPerSecond: 2.6
+  sprinterChaseLoseSightDuration: 0.4
+  dormantUntilSummoned: 0

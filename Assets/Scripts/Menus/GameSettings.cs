@@ -50,11 +50,11 @@ public static class GameSettings
         LoadSettingsFromPlayerPrefs();
     }
 
-    /// <summary>Copies current volumes/display fields (after <see cref="EnsureLoaded"/>) into a save payload.</summary>
+    /// <summary>Copies current in-memory settings into a save payload. Do not call <see cref="EnsureLoaded"/> here —
+    /// it can reload the JSON file and overwrite values just set by sliders in the same frame.</summary>
     public static void CopyRuntimeStateTo(SettingsSaveData s)
     {
         if (s == null) return;
-        EnsureLoaded();
         s.settingsFormat = 1;
         s.masterVolume = _master;
         s.musicVolume = _music;
@@ -111,39 +111,51 @@ public static class GameSettings
 
     public static void SetMasterVolume(float linear01)
     {
+        EnsureLoaded();
         _master = Mathf.Clamp01(linear01);
         PlayerPrefs.SetFloat(KeyMaster, _master);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void SetMusicVolume(float linear01)
     {
+        EnsureLoaded();
         _music = Mathf.Clamp01(linear01);
         PlayerPrefs.SetFloat(KeyMusic, _music);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void SetSfxVolume(float linear01)
     {
+        EnsureLoaded();
         _sfx = Mathf.Clamp01(linear01);
         PlayerPrefs.SetFloat(KeySfx, _sfx);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void SetFullscreen(bool value)
     {
+        EnsureLoaded();
         _fullscreen = value;
         PlayerPrefs.SetInt(KeyFullscreen, value ? 1 : 0);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void SetVsync(bool value)
     {
+        EnsureLoaded();
         _vsync = value;
         PlayerPrefs.SetInt(KeyVsync, value ? 1 : 0);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void SetQualityLevel(int index)
     {
+        EnsureLoaded();
         index = Mathf.Clamp(index, 0, QualitySettings.names.Length - 1);
         _quality = index;
         PlayerPrefs.SetInt(KeyQuality, _quality);
+        GameSave.PersistSettingsFromRuntime();
     }
 
     public static void Save()
@@ -155,6 +167,7 @@ public static class GameSettings
 
     public static void ResetToDefaults()
     {
+        EnsureLoaded();
         _master = _music = _sfx = 1f;
         _fullscreen = true;
         _vsync = true;

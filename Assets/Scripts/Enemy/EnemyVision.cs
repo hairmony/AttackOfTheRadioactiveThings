@@ -59,6 +59,14 @@ public class EnemyVision : MonoBehaviour
     private Vector3[] _debugRayEnds;
     private bool[] _debugRayHit;
 
+    private float _rangeMultiplier = 1f;
+    private float _angleMultiplier = 1f;
+    private bool _coneVisionEnabled = true;
+    private bool _coneVisualEnabled = true;
+    private bool _idleConeSwayActive;
+    private float _idleSwayAmplitudeDegrees = 6f;
+    private float _idleSwaySpeed = 1.1f;
+
     // ────────────────────────────────────────────────────────────────────────
     //  Unity lifecycle
     // ────────────────────────────────────────────────────────────────────────
@@ -79,7 +87,7 @@ public class EnemyVision : MonoBehaviour
     private void Update()
     {
         if (PlayerTransform == null) FindPlayer();
-        CanSeePlayer = PlayerTransform != null && CheckLineOfSight();
+        CanSeePlayer = _coneVisionEnabled && PlayerTransform != null && CheckLineOfSight();
         RebuildConeMesh();
     }
 
@@ -105,9 +113,67 @@ public class EnemyVision : MonoBehaviour
         _meshRenderer.material.color = c;
     }
 
+    public void SetDetectionMultipliers(float rangeMultiplier, float angleMultiplier)
+    {
+        _rangeMultiplier = Mathf.Max(0.05f, rangeMultiplier);
+        _angleMultiplier = Mathf.Max(0.05f, angleMultiplier);
+    }
+
+    /// <summary>Cone raycasts / <see cref="CanSeePlayer"/>. Sprinters/bulwarks disable this and use omnidirectional LOS on <see cref="EnemyAI"/>.</summary>
+    public void SetConeVisionEnabled(bool enabled) => _coneVisionEnabled = enabled;
+
+    public void SetConeVisualEnabled(bool enabled)
+    {
+        _coneVisualEnabled = enabled;
+        if (_meshRenderer != null)
+            _meshRenderer.enabled = enabled;
+    }
+
+    /// <summary>Watcher idle: gentle yaw so the cone scans side to side.</summary>
+    public void SetIdleConeSway(bool active, float amplitudeDegrees = 6f, float speed = 1.1f)
+    {
+        _idleConeSwayActive = active;
+        _idleSwayAmplitudeDegrees = amplitudeDegrees;
+        _idleSwaySpeed = speed;
+    }
+
+    float EffectiveVisionRange => visionRange * _rangeMultiplier;
+    float EffectiveVisionAngleDegrees => Mathf.Clamp(visionAngleDegrees * _angleMultiplier, 1f, 359f);
+
+    /// <summary>Sprinters / bulwarks: max distance for omnidirectional line-of-sight awareness (same inset as cone).</summary>
+    public float GetOmniLosAwarenessDistance() => Mathf.Max(0.01f, EffectiveVisionRange - detectionRangeInset);
+
+    Vector2 VisionUpForDetection()
+    {
+        if (!_idleConeSwayActive)
+            return transform.up;
+
+        float swayDeg = Mathf.Sin(Time.time * _idleSwaySpeed) * _idleSwayAmplitudeDegrees;
+        return Quaternion.AngleAxis(swayDeg, Vector3.forward) * (Vector2)transform.up;
+    }
+
+    Quaternion IdleSwayRotation()
+    {
+        if (!_idleConeSwayActive) return Quaternion.identity;
+        float swayDeg = Mathf.Sin(Time.time * _idleSwaySpeed) * _idleSwayAmplitudeDegrees;
+        return Quaternion.AngleAxis(swayDeg, Vector3.forward);
+    }
+
     // ────────────────────────────────────────────────────────────────────────
     //  Detection
     // ────────────────────────────────────────────────────────────────────────
+
+    /// <summary>Obstacle raycast only — ignores cone shape. Used by Bulwark proximity + LOS.</summary>
+    public bool HasUnobstructedLineToPlayer()
+    {
+        if (PlayerTransform == null) return false;
+        Vector2 origin = transform.position;
+        Vector2 toPlayer = (Vector2)PlayerTransform.position - origin;
+        float dist = toPlayer.magnitude;
+        if (dist < 0.001f) return true;
+        RaycastHit2D hit = Physics2D.Raycast(origin, toPlayer.normalized, dist, obstacleMask);
+        return hit.collider == null;
+    }
 
     private bool CheckLineOfSight()
     {
@@ -125,11 +191,13 @@ public class EnemyVision : MonoBehaviour
     {
         if (dist < 0.001f) return false;
 
-        float effectiveRange = Mathf.Max(0.01f, visionRange - detectionRangeInset);
-        float effectiveHalfAngle = Mathf.Max(0.1f, (visionAngleDegrees * 0.5f) - detectionAngleInsetDegrees);
+        float vr = EffectiveVisionRange;
+        float va = EffectiveVisionAngleDegrees;
+        float effectiveRange = Mathf.Max(0.01f, vr - detectionRangeInset);
+        float effectiveHalfAngle = Mathf.Max(0.1f, (va * 0.5f) - detectionAngleInsetDegrees);
 
         if (dist > effectiveRange) return false;
-        if (Vector2.Angle(transform.up, toPoint) > effectiveHalfAngle) return false;
+        if (Vector2.Angle(VisionUpForDetection(), toPoint) > effectiveHalfAngle) return false;
         return true;
     }
 
@@ -163,10 +231,12 @@ public class EnemyVision : MonoBehaviour
 
     private void RebuildConeMesh()
     {
-        if (_mesh == null) return;
+        if (_mesh == null || !_coneVisualEnabled) return;
 
         int n = coneMeshSegments;
-        float halfRad = visionAngleDegrees * 0.5f * Mathf.Deg2Rad;
+        float va = EffectiveVisionAngleDegrees;
+        float halfRad = va * 0.5f * Mathf.Deg2Rad;
+        Quaternion sway = IdleSwayRotation();
 
         var verts = new Vector3[n + 2];
         var uvs = new Vector2[n + 2];
@@ -180,18 +250,22 @@ public class EnemyVision : MonoBehaviour
         verts[0] = Vector3.zero;
         uvs[0] = Vector2.zero;
 
+        float vr = EffectiveVisionRange;
         for (int i = 0; i <= n; i++)
         {
             float t = i / (float)n;
             float a = Mathf.Lerp(-halfRad, halfRad, t);
-            Vector2 localDir = new Vector2(-Mathf.Sin(a), Mathf.Cos(a));
-            float sampleDistance = visionRange;
+            Vector3 ld3 = sway * new Vector3(-Mathf.Sin(a), Mathf.Cos(a), 0f);
+            Vector2 localDir = new Vector2(ld3.x, ld3.y);
+            float sampleDistance = vr;
 
             if (clipConeAgainstObstacles)
             {
                 LayerMask mask = coneClipMask.value == 0 ? obstacleMask : coneClipMask;
-                Vector2 worldDir = transform.TransformDirection((Vector3)localDir).normalized;
-                sampleDistance = GetVisualClipDistance((Vector2)transform.position, worldDir, visionRange, mask, out bool clippedByHit);
+                Vector2 worldDir = /* sway baked into localDir in parent space → use up-from-local */
+                    ((Vector3)localDir).normalized;
+                worldDir = transform.TransformDirection(worldDir).normalized;
+                sampleDistance = GetVisualClipDistance((Vector2)transform.position, worldDir, vr, mask, out bool clippedByHit);
                 _debugRayHit[i] = clippedByHit;
             }
             else
@@ -262,9 +336,11 @@ public class EnemyVision : MonoBehaviour
     {
         Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.35f);
         Vector3 o = transform.position;
-        float half = visionAngleDegrees * 0.5f;
-        Gizmos.DrawLine(o, o + (Quaternion.AngleAxis(half, Vector3.forward) * transform.up).normalized * visionRange);
-        Gizmos.DrawLine(o, o + (Quaternion.AngleAxis(-half, Vector3.forward) * transform.up).normalized * visionRange);
+        float va = Application.isPlaying ? EffectiveVisionAngleDegrees : visionAngleDegrees;
+        float vr = Application.isPlaying ? EffectiveVisionRange : visionRange;
+        float half = va * 0.5f;
+        Gizmos.DrawLine(o, o + (Quaternion.AngleAxis(half, Vector3.forward) * transform.up).normalized * vr);
+        Gizmos.DrawLine(o, o + (Quaternion.AngleAxis(-half, Vector3.forward) * transform.up).normalized * vr);
 
         if (!debugDrawConeRays || _debugRayEnds == null || _debugRayHit == null)
             return;

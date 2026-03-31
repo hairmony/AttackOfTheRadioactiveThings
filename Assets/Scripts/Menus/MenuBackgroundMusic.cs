@@ -17,6 +17,9 @@ public class MenuBackgroundMusic : MonoBehaviour
     [SerializeField] private bool stopOnDisable = true;
 
     private AudioSource _source;
+    private float _baseSourceVolume = 1f;
+    private float _lastMaster = -1f;
+    private float _lastMusic = -1f;
 
     private void Awake()
     {
@@ -27,8 +30,10 @@ public class MenuBackgroundMusic : MonoBehaviour
         _source.playOnAwake = false;
         _source.loop = true;
         _source.clip = music;
-        _source.volume = Mathf.Clamp01(volume);
+        _baseSourceVolume = Mathf.Clamp01(volume);
+        _source.volume = _baseSourceVolume;
         ApplyMixerRoute();
+        RefreshFallbackVolumeIfNeeded();
     }
 
     /// <summary>
@@ -49,10 +54,13 @@ public class MenuBackgroundMusic : MonoBehaviour
         if (!playOnEnable || music == null || _source == null) return;
         ApplyMixerRoute();
         TryResolveBootstrapIfUnrouted();
+        RefreshFallbackVolumeIfNeeded();
         _source.Play();
     }
 
     private void Start() => TryResolveBootstrapIfUnrouted();
+
+    private void Update() => RefreshFallbackVolumeIfNeeded();
 
     /// <summary>Ensures the AudioSource uses the Music mixer bus so settings sliders apply.</summary>
     private void TryResolveBootstrapIfUnrouted()
@@ -70,6 +78,28 @@ public class MenuBackgroundMusic : MonoBehaviour
         ApplyMixerRoute();
     }
 
+    private void RefreshFallbackVolumeIfNeeded()
+    {
+        if (_source == null) return;
+        if (_source.outputAudioMixerGroup != null)
+        {
+            _source.volume = _baseSourceVolume;
+            _lastMaster = -1f;
+            _lastMusic = -1f;
+            return;
+        }
+
+        GameSettings.EnsureLoaded();
+        float m = GameSettings.MasterVolume;
+        float mu = GameSettings.MusicVolume;
+        if (Mathf.Approximately(m, _lastMaster) && Mathf.Approximately(mu, _lastMusic))
+            return;
+
+        _lastMaster = m;
+        _lastMusic = mu;
+        _source.volume = _baseSourceVolume * m * mu;
+    }
+
     private void OnDisable()
     {
         if (!stopOnDisable || _source == null) return;
@@ -85,6 +115,7 @@ public class MenuBackgroundMusic : MonoBehaviour
         _source.Stop();
         _source.clip = clip;
         ApplyMixerRoute();
+        RefreshFallbackVolumeIfNeeded();
         if (clip != null && (playIfWasPlaying || was))
             _source.Play();
     }

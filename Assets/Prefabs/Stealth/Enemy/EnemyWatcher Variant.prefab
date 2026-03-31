@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8333203383342478850
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2914864212932273066, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_Name
+      value: EnemyWatcher Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterPrefab
+      value: 
+      objectReference: {fileID: 100100000, guid: 7e76a14837534604c83b37fa8390cd4a, type: 3}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: bulwarkPrefab
+      value: 
+      objectReference: {fileID: 100100000, guid: 3a1e4d5a37a12464cb6f9d8f50f51235, type: 3}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: bulwarksOnEnterChase
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterReinforceMaxCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterSweepAngularSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterSweepConeSwaySpeed
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterSweepConeSwayDegrees
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterChaseLoseSightDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: sprinterReinforceChanceAfterFirstCycle
+      value: 0.489
+      objectReference: {fileID: 0}
+    - target: {fileID: 7347064281203132606, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: chaseSpeed
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.66687
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.15021
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8003711951970263043, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
