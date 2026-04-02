@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7347064281203132606}
   - component: {fileID: 8421889992958612716}
   - component: {fileID: 3602747758012533136}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad352f5442d9d9844a1f66e85af7407d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EPathing
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
   patrolPath: {fileID: 0}
   autoFindPathFindingByName: 1
   pathFindingObjectName: PathFinding
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a99044aa9bccc5468af67e8d58071a5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStealthVision
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVision
   playerTag: Player
   visionRange: 12
   visionAngleDegrees: 70
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c96d4d21694f164583659fed2fc011f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   suspiciousDuration: 1.1
   coneFlashFrequency: 8
   searchDuration: 9

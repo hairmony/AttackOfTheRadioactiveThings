@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Follows waypoints from an <see cref="EnemyPathing"/> route. List order is A* output (reversed);
 /// this agent walks from the last index toward index 0. Disable this component (or the behaviour)
-/// when something like <c>EnemyStealthVision</c> should take over.
+/// when something like <see cref="EnemyVision"/> should take over.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyPatrol : MonoBehaviour

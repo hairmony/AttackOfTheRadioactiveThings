@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7377333190275907805}
   - component: {fileID: 8487494783419192532}
   - component: {fileID: 346362002089062539}
+  - component: {fileID: 4728391001}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eae71cfb7dbe4eb4aa53eb8626834fec, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveForce: 6
   moveX: 0
   moveY: 0
@@ -218,3 +219,19 @@ MonoBehaviour:
   fire3Pressed: 0
   rollPressed: 0
   interactPressed: 0
+--- !u!114 &4728391001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429311956669006329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d4e5f678901234567890abcdef1200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLure
+  lurePrefab: {fileID: 5738291001, guid: d4e5f678901234567890abcdef123400, type: 3}
+  throwSpeed: 9
+  spawnOffset: 0.45
+  cooldownSeconds: 1.25

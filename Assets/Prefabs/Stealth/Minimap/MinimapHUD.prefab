@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6286552432776455840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3735304380333836122}
+  - component: {fileID: 4091715535914874630}
+  - component: {fileID: 6939324264113380706}
+  - component: {fileID: 1297948693743642420}
+  m_Layer: 5
+  m_Name: MinimapHUD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3735304380333836122
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286552432776455840}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.3822875, y: 1.3822875, z: 1.3822875}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -15, y: -762}
+  m_SizeDelta: {x: 220, y: 220}
+  m_Pivot: {x: 1, y: 1}
+--- !u!222 &4091715535914874630
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286552432776455840}
+  m_CullTransparentMesh: 1
+--- !u!114 &6939324264113380706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286552432776455840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: e5d4c3b2a1908f7e6d5c4b3a291807f6, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &1297948693743642420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286552432776455840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c3d4e5f6a7890123456789abcdef02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapWorldIcons
+  minimapCamera: {fileID: 0}
+  playerTransformOverride: {fileID: 0}
+  playerIcon: {fileID: -3219035741384111448, guid: 55b198e8fa2fea542844b27c98790bbe, type: 3}
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
+  playerIconSize: 19
+  rotatePlayerIconWithFacing: 1
+  enemyIcon: {fileID: 21300000, guid: e521bcd4ad275ab4b857bb934fccbc8c, type: 3}
+  enemyColor: {r: 1, g: 1, b: 1, a: 1}
+  enemyIconSize: 18
+  rotateEnemyIconWithFacing: 1
+  watcherMinimap:
+    icon: {fileID: 0}
+    overrideColor: 1
+    color: {r: 1, g: 0.8218156, b: 0.34276712, a: 1}
+    iconSize: 0
+  sprinterMinimap:
+    icon: {fileID: 0}
+    overrideColor: 1
+    color: {r: 0.24213827, g: 0.55801487, b: 1, a: 1}
+    iconSize: 0
+  bulwarkMinimap:
+    icon: {fileID: 0}
+    overrideColor: 1
+    color: {r: 1, g: 0.19182372, b: 0.19182372, a: 1}
+    iconSize: 0
+  enemyRescanInterval: 0.25

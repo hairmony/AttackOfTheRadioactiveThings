@@ -119,7 +119,83 @@ public class EnemyVision : MonoBehaviour
         _angleMultiplier = Mathf.Max(0.05f, angleMultiplier);
     }
 
-    /// <summary>Cone raycasts / <see cref="CanSeePlayer"/>. Sprinters/bulwarks disable this and use omnidirectional LOS on <see cref="EnemyAI"/>.</summary>
+    /// <summary>Nearest thrown <see cref="SpawnLure"/> in the vision cone with clear LOS (same rules as the player).</summary>
+    public bool TryGetVisibleLureInCone(out Transform lureTransform)
+    {
+        lureTransform = null;
+        if (!_coneVisionEnabled)
+            return false;
+
+        Vector2 origin = transform.position;
+        float bestDist = float.MaxValue;
+        Transform best = null;
+
+        for (int i = SpawnLure.Active.Count - 1; i >= 0; i--)
+        {
+            var lure = SpawnLure.Active[i];
+            if (lure == null)
+            {
+                SpawnLure.Active.RemoveAt(i);
+                continue;
+            }
+
+            Vector2 to = (Vector2)lure.transform.position - origin;
+            float dist = to.magnitude;
+            if (!IsInsideDetectionCore(to, dist))
+                continue;
+
+            if (!LineClearToPointIgnoringLures(origin, lure.transform.position))
+                continue;
+
+            if (dist < bestDist)
+            {
+                bestDist = dist;
+                best = lure.transform;
+            }
+        }
+
+        lureTransform = best;
+        return best != null;
+    }
+
+    /// <summary>Nearest <see cref="SpawnLure"/> within omnidirectional awareness range with clear LOS (Bulwarks).</summary>
+    public bool TryGetVisibleLureOmni(out Transform lureTransform)
+    {
+        lureTransform = null;
+        float maxD = GetOmniLosAwarenessDistance();
+        Vector2 origin = transform.position;
+        float bestDist = float.MaxValue;
+        Transform best = null;
+
+        for (int i = SpawnLure.Active.Count - 1; i >= 0; i--)
+        {
+            var lure = SpawnLure.Active[i];
+            if (lure == null)
+            {
+                SpawnLure.Active.RemoveAt(i);
+                continue;
+            }
+
+            Vector2 to = (Vector2)lure.transform.position - origin;
+            float dist = to.magnitude;
+            if (dist < 0.001f || dist > maxD)
+                continue;
+
+            if (!LineClearToPointIgnoringLures(origin, lure.transform.position))
+                continue;
+
+            if (dist < bestDist)
+            {
+                bestDist = dist;
+                best = lure.transform;
+            }
+        }
+
+        lureTransform = best;
+        return best != null;
+    }
+
+    /// <summary>Cone raycasts / <see cref="CanSeePlayer"/>. Bulwarks disable this; <see cref="EnemyAI"/> uses omnidirectional LOS for them.</summary>
     public void SetConeVisionEnabled(bool enabled) => _coneVisionEnabled = enabled;
 
     public void SetConeVisualEnabled(bool enabled)
@@ -173,6 +249,28 @@ public class EnemyVision : MonoBehaviour
         if (dist < 0.001f) return true;
         RaycastHit2D hit = Physics2D.Raycast(origin, toPlayer.normalized, dist, obstacleMask);
         return hit.collider == null;
+    }
+
+    /// <summary>LOS for lure tests: ignores hits on <see cref="SpawnLure"/> so the lure collider / shared layers cannot block sight.</summary>
+    bool LineClearToPointIgnoringLures(Vector2 origin, Vector2 targetWorld)
+    {
+        Vector2 to = targetWorld - origin;
+        float dist = to.magnitude;
+        if (dist < 0.001f)
+            return true;
+        Vector2 dir = to / dist;
+        var hits = Physics2D.RaycastAll(origin, dir, dist, obstacleMask);
+        float nearestBlock = float.MaxValue;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit2D h = hits[i];
+            if (h.collider == null) continue;
+            if (h.collider.GetComponentInParent<SpawnLure>() != null)
+                continue;
+            if (h.distance < nearestBlock)
+                nearestBlock = h.distance;
+        }
+        return nearestBlock >= dist - 0.001f;
     }
 
     private bool CheckLineOfSight()

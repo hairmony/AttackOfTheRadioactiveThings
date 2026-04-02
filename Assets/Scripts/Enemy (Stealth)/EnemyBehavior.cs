@@ -369,6 +369,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (PlayerIsDetected())
             EnterSuspicious();
+        else if (LureAttracts(out Transform lureTf))
+            EnterSearchFromLure(lureTf);
     }
 
     private void UpdateSuspicious()
@@ -475,10 +477,28 @@ public class EnemyAI : MonoBehaviour
     private void EnterSearch()
     {
         bool fromChase = _state == State.Chase;
+        Vector2 lastKnown = _vision.PlayerTransform != null
+            ? (Vector2)_vision.PlayerTransform.position
+            : Vector2.zero;
+        EnterSearchInternal(fromChase, lastKnown, notifyMusic: true);
+    }
+
+    private void EnterSearchFromLure(Transform lureTransform)
+    {
+        if (lureTransform == null) return;
+        EnterSearchInternal(fromChase: false, (Vector2)lureTransform.position, notifyMusic: false);
+    }
+
+    private void EnterSearchInternal(bool fromChase, Vector2 lastKnown, bool notifyMusic)
+    {
+        State previous = _state;
         _state = State.Search;
         _searchFollowedChase = fromChase;
-        _lastKnownPos = _vision.PlayerTransform.position;
+        _lastKnownPos = lastKnown;
         _searchTimer = searchDuration;
+
+        if (previous == State.Idle && patrolBehaviour != null)
+            patrolBehaviour.enabled = false;
 
         _movement.BeginSearch();
         StopFlash();
@@ -491,7 +511,16 @@ public class EnemyAI : MonoBehaviour
             _watcherFirstChaseHasEnded = true;
 
         onEnterSearch?.Invoke();
-        DynamicMusic.NotifyEnemyEnteredSearch();
+        if (notifyMusic)
+            DynamicMusic.NotifyEnemyEnteredSearch();
+    }
+
+    private bool LureAttracts(out Transform lureTransform)
+    {
+        lureTransform = null;
+        if (_archetype != null && _archetype.Kind == EnemyKind.Bulwark)
+            return _vision.TryGetVisibleLureOmni(out lureTransform);
+        return _vision.TryGetVisibleLureInCone(out lureTransform);
     }
 
     private void EnterChase()
