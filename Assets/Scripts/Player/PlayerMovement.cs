@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D myBody;
     private SpriteRenderer sr;
-    private PlayerControls controls;
 
     [Header("Basic Movement")]
     [SerializeField]
@@ -47,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
     {
         myBody = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        controls = GetComponent<PlayerControls>();
         collider = GetComponent<CapsuleCollider2D>();
         normalColliderSize = collider.size;
         normalColliderOffset = collider.offset;
@@ -71,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyRotation();
 
         // TIME SLOW
-        if (canTimeSlow && !isSlowing && controls.fire3Pressed)
+        if (canTimeSlow && !isSlowing && PlayerControls.Instance != null && PlayerControls.Instance.fire3Pressed)
         {
             StartTimeSlow();
         }
@@ -86,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         //myBody.gravityScale = isSlowing ? normalGravity * slowFactorPlayer : normalGravity;
 
         //ROLL
-        if (canRoll && !isRolling && rollCooldownTimer <= 0f && controls.rollPressed && canMove)
+        if (canRoll && !isRolling && rollCooldownTimer <= 0f && PlayerControls.Instance != null && PlayerControls.Instance.rollPressed && canMove)
         {
             StartRoll();
         }
@@ -115,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isRolling) return;
 
-        moveX = controls.horizontalInput;
+        moveX = PlayerControls.Instance != null ? PlayerControls.Instance.horizontalInput : 0f;
         moveY = Input.GetAxisRaw("Vertical");
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
 
@@ -156,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(moveY, moveX) * Mathf.Rad2Deg;
             float currentAngle = transform.eulerAngles.z;
-            float smoothAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.unscaledDeltaTime);
+            float smoothAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
         }
     }

@@ -90,10 +90,10 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\Scripts\Menus\PauseMenu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\Scripts\Enemy (Tower Defense)\TDEnemyPathing.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Menus\Pause\PauseMenu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\Scripts\Menus\CreditsBlocks.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Assets\Scripts\Enemy (Stealth)\EnemySprinterDeployment.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Menus\InteractButton.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerControls.cs" />
+    <Compile Include="Assets\Scripts\Player\Controls.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />

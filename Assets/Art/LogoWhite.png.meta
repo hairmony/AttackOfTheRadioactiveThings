@@ -1,55 +1,49 @@
 fileFormatVersion: 2
-guid: 7fd94caa58070144c8290c4f8eed2647
+guid: 52ea15e8a55ac3a41bdf238be227c207
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1244070485240393337
-    second: SingleSpagettyTypeface_0
+      213: 7541115637600900451
+    second: LogoWhite_0
   - first:
-      213: 8363064957084110935
-    second: SingleSpagettyTypeface_1
+      213: -5411187300339523244
+    second: LogoWhite_1
   - first:
-      213: 412205566156438238
-    second: SingleSpagettyTypeface_2
+      213: -5474480869213235639
+    second: LogoWhite_2
   - first:
-      213: -2235727732496566445
-    second: SingleSpagettyTypeface_3
+      213: 1141479645722150299
+    second: LogoWhite_3
   - first:
-      213: 7008740162506346074
-    second: SingleSpagettyTypeface_4
+      213: -8749696320380031568
+    second: LogoWhite_4
   - first:
-      213: -5722442772416313103
-    second: SingleSpagettyTypeface_5
+      213: 3691667985028841604
+    second: LogoWhite_5
   - first:
-      213: 1147378655448271782
-    second: SingleSpagettyTypeface_6
+      213: -1976867534686133881
+    second: LogoWhite_6
   - first:
-      213: -6160126052772892710
-    second: SingleSpagettyTypeface_7
+      213: -8907083950967059084
+    second: LogoWhite_7
   - first:
-      213: 8842402369985736607
-    second: SingleSpagettyTypeface_8
+      213: 8945942122927735523
+    second: LogoWhite_8
   - first:
-      213: 6828370377067407840
-    second: SingleSpagettyTypeface_9
+      213: 8522550995814550416
+    second: LogoWhite_9
   - first:
-      213: 79990840592148717
-    second: SingleSpagettyTypeface_10
+      213: -2089271516023036036
+    second: LogoWhite_10
   - first:
-      213: 9060416394393600784
-    second: SingleSpagettyTypeface_11
+      213: 4844056013064149518
+    second: LogoWhite_11
   - first:
-      213: -679573463732556125
-    second: SingleSpagettyTypeface_12
+      213: -5455745785080913624
+    second: LogoWhite_12
   - first:
-      213: 9129543966822912827
-    second: SingleSpagettyTypeface_13
-  - first:
-      213: 806714203291844844
-    second: SingleSpagettyTypeface_14
-  - first:
-      213: -6399773926170815438
-    second: SingleSpagettyTypeface_15
+      213: -2291392682630479748
+    second: LogoWhite_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -158,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_0
+      name: LogoWhite_0
       rect:
         serializedVersion: 2
-        x: 87
-        y: 108
-        width: 1026
-        height: 1026
+        x: 190
+        y: 255
+        width: 454
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +167,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 781d2bb2c7c2cbee0800000000000000
-      internalID: -1244070485240393337
+      spriteID: 3655855c7bc67a860800000000000000
+      internalID: 7541115637600900451
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_1
+      name: LogoWhite_1
       rect:
         serializedVersion: 2
-        x: 1185
-        y: 346
-        width: 481
-        height: 608
+        x: 660
+        y: 255
+        width: 174
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +189,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7501480e4439f0470800000000000000
-      internalID: 8363064957084110935
+      spriteID: 451682ee1d997e4b0800000000000000
+      internalID: -5411187300339523244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_2
+      name: LogoWhite_2
       rect:
         serializedVersion: 2
-        x: 1750
-        y: 891
-        width: 140
-        height: 115
+        x: 825
+        y: 255
+        width: 230
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,20 +211,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eda713947c278b500800000000000000
-      internalID: 412205566156438238
+      spriteID: 9469fdc87acb604b0800000000000000
+      internalID: -5474480869213235639
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_3
+      name: LogoWhite_3
       rect:
         serializedVersion: 2
-        x: 3040
-        y: 358
-        width: 111
-        height: 628
+        x: 940
+        y: 57
+        width: 338
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,20 +233,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3577d02097919f0e0800000000000000
-      internalID: -2235727732496566445
+      spriteID: b958b91a0b957df00800000000000000
+      internalID: 1141479645722150299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_4
+      name: LogoWhite_4
       rect:
         serializedVersion: 2
-        x: 3951
-        y: 346
-        width: 481
-        height: 608
+        x: 1308
+        y: 47
+        width: 143
+        height: 209
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a5e443d3b0c044160800000000000000
-      internalID: 7008740162506346074
+      spriteID: 0bda433fd85d29680800000000000000
+      internalID: -8749696320380031568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_5
+      name: LogoWhite_5
       rect:
         serializedVersion: 2
-        x: 6521
-        y: 347
-        width: 296
-        height: 577
+        x: 1420
+        y: 39
+        width: 174
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -283,20 +277,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1f8cf960e9cc590b0800000000000000
-      internalID: -5722442772416313103
+      spriteID: 480835c19707b3330800000000000000
+      internalID: 3691667985028841604
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_6
+      name: LogoWhite_6
       rect:
         serializedVersion: 2
-        x: 6870
-        y: 347
-        width: 296
-        height: 577
+        x: 1570
+        y: 39
+        width: 99
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -305,20 +299,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ab0cdcdece4cef00800000000000000
-      internalID: 1147378655448271782
+      spriteID: 781e70b7371c094e0800000000000000
+      internalID: -1976867534686133881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_7
+      name: LogoWhite_7
       rect:
         serializedVersion: 2
-        x: 1764
-        y: 358
-        width: 111
-        height: 463
+        x: 1645
+        y: 39
+        width: 157
+        height: 218
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -327,20 +321,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: adfa7d42ef5d28aa0800000000000000
-      internalID: -6160126052772892710
+      spriteID: 47d860e965ea36480800000000000000
+      internalID: -8907083950967059084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_8
+      name: LogoWhite_8
       rect:
         serializedVersion: 2
-        x: 1994
-        y: 358
-        width: 422
-        height: 475
+        x: 1785
+        y: 47
+        width: 137
+        height: 211
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -349,20 +343,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9f62104b1686ba70800000000000000
-      internalID: 8842402369985736607
+      spriteID: 3e2cf4296fe562c70800000000000000
+      internalID: 8945942122927735523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_9
+      name: LogoWhite_9
       rect:
         serializedVersion: 2
-        x: 2492
-        y: 199
-        width: 465
-        height: 626
+        x: 1906
+        y: 58
+        width: 136
+        height: 197
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -371,20 +365,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e927effdae33ce50800000000000000
-      internalID: 6828370377067407840
+      spriteID: 09b8dade9fe264670800000000000000
+      internalID: 8522550995814550416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_10
+      name: LogoWhite_10
       rect:
         serializedVersion: 2
-        x: 3245
-        y: 346
-        width: 431
-        height: 487
+        x: 0
+        y: 77
+        width: 401
+        height: 175
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -393,20 +387,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: de8a7c6ee3f2c1100800000000000000
-      internalID: 79990840592148717
+      spriteID: c77ea1820aa6103e0800000000000000
+      internalID: -2089271516023036036
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_11
+      name: LogoWhite_11
       rect:
         serializedVersion: 2
-        x: 4528
-        y: 212
-        width: 447
-        height: 621
+        x: 382
+        y: 114
+        width: 99
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -415,20 +409,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 013c4f0e4b01dbd70800000000000000
-      internalID: 9060416394393600784
+      spriteID: e0a98ca674b893340800000000000000
+      internalID: 4844056013064149518
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_12
+      name: LogoWhite_12
       rect:
         serializedVersion: 2
-        x: 5046
-        y: 346
-        width: 417
-        height: 487
+        x: 463
+        y: 106
+        width: 243
+        height: 146
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -437,20 +431,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3ae6077098ba196f0800000000000000
-      internalID: -679573463732556125
+      spriteID: 821ea6f3d1c4944b0800000000000000
+      internalID: -5455745785080913624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SingleSpagettyTypeface_13
+      name: LogoWhite_13
       rect:
         serializedVersion: 2
-        x: 5531
-        y: 199
-        width: 465
-        height: 626
+        x: 701
+        y: 89
+        width: 270
+        height: 163
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -459,52 +453,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b335acf0ed7a2be70800000000000000
-      internalID: 9129543966822912827
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SingleSpagettyTypeface_14
-      rect:
-        serializedVersion: 2
-        x: 6047
-        y: 346
-        width: 431
-        height: 487
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ce009723b46023b00800000000000000
-      internalID: 806714203291844844
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SingleSpagettyTypeface_15
-      rect:
-        serializedVersion: 2
-        x: 7232
-        y: 200
-        width: 416
-        height: 621
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23418c7858f6f27a0800000000000000
-      internalID: -6399773926170815438
+      spriteID: c7081e6de765330e0800000000000000
+      internalID: -2291392682630479748
       vertices: []
       indices: 
       edges: []
@@ -523,22 +473,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SingleSpagettyTypeface_0: -1244070485240393337
-      SingleSpagettyTypeface_1: 8363064957084110935
-      SingleSpagettyTypeface_10: 79990840592148717
-      SingleSpagettyTypeface_11: 9060416394393600784
-      SingleSpagettyTypeface_12: -679573463732556125
-      SingleSpagettyTypeface_13: 9129543966822912827
-      SingleSpagettyTypeface_14: 806714203291844844
-      SingleSpagettyTypeface_15: -6399773926170815438
-      SingleSpagettyTypeface_2: 412205566156438238
-      SingleSpagettyTypeface_3: -2235727732496566445
-      SingleSpagettyTypeface_4: 7008740162506346074
-      SingleSpagettyTypeface_5: -5722442772416313103
-      SingleSpagettyTypeface_6: 1147378655448271782
-      SingleSpagettyTypeface_7: -6160126052772892710
-      SingleSpagettyTypeface_8: 8842402369985736607
-      SingleSpagettyTypeface_9: 6828370377067407840
+      LogoWhite_0: 7541115637600900451
+      LogoWhite_1: -5411187300339523244
+      LogoWhite_10: -2089271516023036036
+      LogoWhite_11: 4844056013064149518
+      LogoWhite_12: -5455745785080913624
+      LogoWhite_13: -2291392682630479748
+      LogoWhite_2: -5474480869213235639
+      LogoWhite_3: 1141479645722150299
+      LogoWhite_4: -8749696320380031568
+      LogoWhite_5: 3691667985028841604
+      LogoWhite_6: -1976867534686133881
+      LogoWhite_7: -8907083950967059084
+      LogoWhite_8: 8945942122927735523
+      LogoWhite_9: 8522550995814550416
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,31 +1,21 @@
 <!--
-  Images: put sprites under Assets/Art/… (e.g. Assets/Art/Credits/logo.png).
-  Use a line by itself, path relative to Assets/Art. Optional size after first "|":
-    ![alt](Credits/logo)           → auto max width (panel)
-    ![alt](Credits/logo|420)       → width 420 UI units, height from aspect ratio
-    ![alt](Credits/logo|600x120)   → fixed layout box (width x height)
+  DISPLAY IMAGES IN CREDITS
+
+  1. Put sprites under Assets/Art/… (e.g. Assets/Art/Credits/logo.png).
+  2. Enter path relative to Assets/Art in a line to display.
+  
+  Use these formats:
+    ![Alt Text](Credits/image_name) for auto max width of credits panel
+    ![Alt Text](Credits/image_name|420) for width 420 UI units, height matches aspect ratio of image
+    ![Alt Text](Credits/image_name|600x120) for fixed layout of width x height
 
   Editor loads via Assets/Art. Player builds need Resources (same logical path) or Addressables.
 -->
 ## Single Spagetty Games
 presents
 
-
-
-
-
-
-![GameLogo](Art/Logo)
+![GameLogo](Art/LogoWhite|1980)
 <!-- Attack of the Radioactive Things -->
-
-
-
-
-
-
-
-
-
 
 
 
@@ -59,24 +49,24 @@ Hari Vallath
 
 
 #### Narrative Director
-Mishaal Patel
+Kego Wigwas
 
 #### Casting by
 Hari Vallath
 
 
 
-### CAST
+### VOICE CAST
 
 Watcher – TBD
 
-Sprinter – Nicholas Roy
+Sprinter – TBD
 
 Bulwark – TBD
 
-Soldier Scout – Talha Hasan
+Human Scout – Talha Hasan
 
-Soldier Commander – Kego Wigwas
+Human Commander – Kego Wigwas
 <!-- Fix cast names -->
 
 
@@ -92,20 +82,7 @@ Soldier Commander – Kego Wigwas
 Hari Vallath
 
 #### Gameplay Programmers – Tower-Defense
-Kego Wigwas
-Mishaal Patel
-
-#### Enemy AI Programmer
-Hari Vallath
-
-#### Pathfinding Programmer
-Kego Wigwas
-
-#### Turret Designer
-Mishaal Patel
-
-#### Save Data Manager
-Hari Vallath
+Kego Wigwas & Mishaal Patel
 
 #### UI Programmer
 Hari Vallath
@@ -143,10 +120,10 @@ Hari Vallath
 Ausat Ali
 
 #### Environment Design
-TBD
+Kego Wigwas
 
 #### Concept Artists
-Hari Vallath
+Hari Vallath 
 Kego Wigwas
 
 #### Animation

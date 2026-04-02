@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    public static PlayerControls Instance { get; private set; }
+
     [Header("Input Names")]
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical"; 
@@ -11,6 +13,7 @@ public class PlayerControls : MonoBehaviour
     public string fire3Button = "Fire3";
     public string rollButton = "Fire2";
     public string interactButton = "Interact";
+    public string pauseButton = "Pause";
 
     [Header("Current Input State")]
 
@@ -22,6 +25,23 @@ public class PlayerControls : MonoBehaviour
     public bool fire3Pressed;
     public bool rollPressed;
     public bool interactPressed;
+    public bool pausePressed;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 
     void Update()
     {
@@ -34,5 +54,6 @@ public class PlayerControls : MonoBehaviour
         fire3Pressed = Input.GetButtonDown(fire3Button);
         rollPressed = Input.GetButtonDown(rollButton);
         interactPressed = Input.GetButtonDown(interactButton);
+        pausePressed = Input.GetButtonDown(pauseButton);
     }
 }
