@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     protected GameObject bulletTarget;
     protected float bulletDamage = 0f;
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (bulletTarget != null)
         {
