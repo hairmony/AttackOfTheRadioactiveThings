@@ -193,8 +193,8 @@ MonoBehaviour:
   rollCooldown: 0.5
   isRolling: 0
   rollCooldownTimer: 0.4
-  rollColliderSize: {x: 0, y: 0.75}
-  rollColliderOffset: {x: 0, y: 0.5}
+  rollColliderSize: {x: 0.65, y: 0.1}
+  rollColliderOffset: {x: 0, y: 0}
 --- !u!114 &346362002089062539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +357,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinimapCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5123456789012345678, guid: 86eff1596b5e13444b1597587b2bbab6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
