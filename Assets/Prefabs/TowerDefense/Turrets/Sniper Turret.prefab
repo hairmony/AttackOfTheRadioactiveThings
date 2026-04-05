@@ -113,11 +113,11 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 8220011930421565997}
   range: 8
   damage: 7
-  attackInterval: 3.5
+  attackInterval: 5
   useCharges: 0
   chargeTime: 0
   maxCharges: 0
-  rotationSpeed: 300
+  rotationSpeed: 400
   useDOT: 0
   DOTInterval: 0
   pierceBullet: 1

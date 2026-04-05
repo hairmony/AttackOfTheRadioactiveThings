@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TDEnemyProperties
   health: 5
-  speed: 5
+  speed: 3
   damage: 2
   reachDistance: 0.05
   watcherRate: 0.6
