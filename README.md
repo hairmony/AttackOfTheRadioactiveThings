@@ -1,62 +1,67 @@
 # Attack of the Radioactive Things
+ATop-down **stealth-action-tower-defense** game in Unity.
 
-A **top-down stealth-action-tower-defense** game.
+This repository is a Unity project with some local caches missing. When you open it in Unity, it will generate the missing files automatically. This may take a few minutes.
 
-## Requirements
+## Prerequisites
 
-- **Unity Editor** `6000.3.6f1`
-- **Windows**
+- **Unity Editor** `6000.3.6f1`.
+- **Windows 11** is the primary development target.
 
-Clone or copy the repository, then open the folder that contains `Assets`, `Packages`, and `ProjectSettings` as a Unity project.
+## Setup
 
-## Running the game
+### Play the Game
 
-1. Open the project in Unity.
-2. Add any scenes you need to **File → Build Settings** if they are missing (the checked-in list is under `ProjectSettings/EditorBuildSettings.asset`).
-3. Press **Play** with the scene you want to test loaded, or build a player via **File → Build Profiles**.
+You can go to our itch.io link to directly play the game in the browser or download the available builds.
 
-Typical entry flow: **MainMenu** → stealth hub / levels or TD maps, depending on your UI wiring.
+| Build | Notes |
+|--------|--------|
+| **Windows** | Build for Windows PCs |
+| **Linux** | Build for Linux computers |
+| **Web** | WebGL (HTML5) build for browsers |
 
-## Gameplay overview
+### Running the Editor
 
-| Mode | Notes |
-|------|--------|
-| **Stealth** | Top-down movement, enemy AI (patrol / chase / specials), objectives driven by scene design. Hub-style scene: `Assets/Scenes/StealthLevels/StealthOpen.unity`. |
-| **Tower defense** | Waves, paths, turrets; victory handled via `TDEnemyCount` and related TD scripts. Levels live under `Assets/Scenes/TDLevels/` (`TDLevel1`–`TDLevel4`, plus extras such as `TDMergePaths`). |
-| **Menus** | `MainMenu`, `SettingsMenu` (often loaded **additively** over gameplay), `CreditsMenu`, `GameOverMenu`. |
+1. Clone or download **this repository**.
+2. Open **Unity Hub** → **Add project from disk** → choose the **root folder** that directly contains:
+   - `Assets`
+   - `Packages`
+   - `ProjectSettings`
+3. Open the project with editor **6000.3.6f1** (or closest available).
+4. On your first time opening, Unity will generate folders like `Library/` and other local caches.
 
-### Progression (TD → credits)
+You can now press **Play** in the Editor to run the project.
 
-TD stages **1–4** completion is stored in **PlayerPrefs** (`TD_Done_1` … `TD_Done_4`) when a TD level is won. When **all four** are complete, loading the stealth hub can redirect to **Credits** once (see `TDCompleteRedirect` on the hub scene and `TDProgress` in code). Adjust behavior in the Inspector if you want a different flow.
+#### Running Scenes
 
-## Input
+1. Open any scene under `Assets/Scenes/` (e.g. **MainMenu**)
+2. Use **File → Build Settings** to add scenes to your build if they don't open
+3. Press **Play**
 
-The project uses Unity’s **legacy Input Manager** (`ProjectSettings/InputManager.asset`). Gameplay reads axes and buttons such as **Horizontal**, **Vertical**, **Fire1**, **Fire2**, **Jump**, **Interact**, **Pause** through `PlayerControls` (`Assets/Scripts/Player/Controls.cs`). Change bindings in **Edit → Project Settings → Input Manager**.
+#### Scenes
 
-## Saves and settings
+- **Stealth:** Hub-style level at `Assets/Scenes/StealthLevels/StealthOpen.unity`.
+- **Tower defense:** Levels under `Assets/Scenes/TDLevels/`.
+- **Menus:** Main menu, settings, credits, etc. menus under `Assets/Scenes/Menus`.
+- **Extras:** Other scenes used during development for testing are also included.
 
-| Mechanism | Purpose |
-|-----------|---------|
-| **`SaveManager`** | Per-scene layout JSON under the OS persistent data path (`SceneLayout_<SceneName>.json`), plus enemy state as implemented in `SaveManager` / `SceneEnemySave`. |
-| **`gamesave.json`** | Written under persistent data path via `SaveGame` / `GameSettings` (audio levels, display flags, etc.). |
-| **`PlayerPrefs`** | Additional keys (e.g. last level for retries, TD completion flags, settings mirrors). |
+## What’s in this repository
 
-Exact paths on your machine: `Application.persistentDataPath` (log it once from a small debug script if needed).
-
-## Repository layout (high level)
-
-```
-Assets/
-  Scenes/           # Menus, stealth, TD, prototypes
-  Scripts/          # Gameplay, UI, persistence, enemies, turrets
-  Prefabs/          # Player, enemies, TD helpers, etc.
-  Settings/         # URP and render settings
-Packages/           # Unity package manifest
-ProjectSettings/    # Editor version, input, build scenes, etc.
-```
+| Path | Purpose |
+|------|---------|
+| `Assets/` | Scenes, scripts, prefabs, art, audio, UI |
+| `Packages/` | Unity package manifest etc. |
+| `ProjectSettings/` | Editor version, input, graphics (URP), build scene list, etc. |
+| `Assembly-CSharp.csproj` | Generated C# project maintained by Unity |
 
 ## Authors
 
-- Mishaal Patel
 - Hariharan Vallath
+- Mishaal Patel
+ty |
+
+## Authors
+
+- Hariharan Vallath
+- Mishaal Patel
 - Kego Wigwas
