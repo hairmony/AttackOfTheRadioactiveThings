@@ -192,6 +192,7 @@ public class TDEnemyProperties: MonoBehaviour
         Vector3 direction = (targetScript.GetTransformList()[currWaypointIndex].position - transform.position).normalized;
         Vector3 targetPos = targetScript.GetTransformList()[currWaypointIndex].position;
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        transform.up = direction;
 
         if (Vector3.Distance(transform.position, targetPos) < reachDistance)
         {
