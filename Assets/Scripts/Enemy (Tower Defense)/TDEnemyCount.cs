@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TDEnemyCount : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class TDEnemyCount : MonoBehaviour
     public static TDEnemyCount Instance { get; set; }
 
     [SerializeField] private GameObject sceneTransition;
+
+    [Header("Progress (TDLevel1–4)")]
+    [Tooltip("1–4 = this stage index. 0 = infer from scene name TDLevelN.")]
+    [SerializeField] [Range(0, 4)] int tdLevelNumber;
+    [Tooltip("Mirrors saved completion for this stage (updated on load and on victory).")]
+    [SerializeField] bool levelComplete;
 
     private int eCount = 0; //Tracks current # of enemies
     private int eSpawned = 0; //Tracks how many spawned
@@ -26,6 +33,32 @@ public class TDEnemyCount : MonoBehaviour
         Instance = this;
 
         //DontDestroyOnLoad(gameObject); //Allows for objects to persist between scenes
+        SyncLevelCompleteFromSave();
+    }
+
+    void SyncLevelCompleteFromSave()
+    {
+        int n = ResolveTdLevelNumber();
+        if (n >= 1 && n <= 4)
+            levelComplete = TDProgress.IsComplete(n);
+    }
+
+    int ResolveTdLevelNumber()
+    {
+        if (tdLevelNumber >= 1 && tdLevelNumber <= 4)
+            return tdLevelNumber;
+        return TDProgress.TryGetTdLevelNumberFromSceneName(SceneManager.GetActiveScene().name, out int fromName)
+            ? fromName
+            : 0;
+    }
+
+    void RecordVictoryProgress()
+    {
+        int n = ResolveTdLevelNumber();
+        if (n < 1 || n > 4)
+            return;
+        TDProgress.MarkComplete(n);
+        levelComplete = true;
     }
 
     public void IncrementCount() {  eCount++; }
@@ -41,14 +74,25 @@ public class TDEnemyCount : MonoBehaviour
         if (eDefeat == eTotal)
         {
             Debug.Log("All enemies cleared");
-            //I think this works??
-            sceneTransition.GetComponent<SceneNavigator>().GoBackToPreviousScene(); //Should send back
+            RecordVictoryProgress();
+            TryGoBack();
+            return;
         }
         //All enemies spawned but NOT all defeated
         if (eCount == 0 && eSpawned == eTotal)
         {
             Debug.Log("All enemies managed"); //This message will always print
-            sceneTransition.GetComponent<SceneNavigator>().GoBackToPreviousScene();
+            RecordVictoryProgress();
+            TryGoBack();
         }
+    }
+
+    void TryGoBack()
+    {
+        if (sceneTransition == null)
+            return;
+        var nav = sceneTransition.GetComponent<SceneNavigator>();
+        if (nav != null)
+            nav.GoBackToPreviousScene();
     }
 }

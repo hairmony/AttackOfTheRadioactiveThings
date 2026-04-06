@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e60f328c70980d4982cff7c6677f161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TDEnemyCount
+  sceneTransition: {fileID: 0}
+  tdLevelNumber: 0
+  levelComplete: 0
