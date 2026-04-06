@@ -83,6 +83,7 @@ public class TurretMultihit : Turret
                         targetScripts[k] = comparisonScript;
                     }
                 }
+                j++;
             }
         }
     }
