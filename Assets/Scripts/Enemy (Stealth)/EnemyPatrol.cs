@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Follows waypoints from an <see cref="EnemyPathing"/> route. List order is A* output (reversed);
-/// this agent walks from the last index toward index 0. Disable this component (or the behaviour)
-/// when something like <see cref="EnemyVision"/> should take over.
+/// Walks <see cref="patrolWaypoints"/> in order (0 → 1 → 2 → …) and loops back to the first.
+/// Disable when <see cref="EnemyAI"/> takes over (suspicious / search / chase).
+/// If the array is empty or all null, falls back to <see cref="EnemyPathing"/> (tilemap A*: end → start, then destroys).
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyPatrol : MonoBehaviour
 {
     private Rigidbody2D myBody;
 
-    [Header("Patrol route")]
-    [Tooltip("Assign the GameObject with EnemyPathing (optional: leave empty to use a child named PathFinding).")]
+    [Header("Patrol waypoints (preferred)")]
+    [Tooltip("Order: first element, then second, … then back to first. Use empty GameObjects in the scene.")]
+    [SerializeField] private Transform[] patrolWaypoints;
+
+    [Header("Patrol route — tilemap A* (only if waypoints above are empty)")]
     [SerializeField] private EnemyPathing patrolPath;
     [SerializeField] private bool autoFindPathFindingByName = true;
     [SerializeField] private string pathFindingObjectName = "PathFinding";
 
     [Header("Movement")]
     [SerializeField] private float speed = 1f;
-    [SerializeField] private float reachDistance = 0.05f;
+    [Tooltip("How close (XY) the body must get before advancing. Too small + separation/colliders can make the guard orbit forever.")]
+    [SerializeField] private float reachDistance = 0.18f;
     [SerializeField] private bool enableSeparation = true;
     [SerializeField] private float separationRadius = 0.7f;
     [SerializeField] private float separationWeight = 1.1f;
@@ -44,18 +48,44 @@ public class EnemyPatrol : MonoBehaviour
     private Collider2D _selfCollider;
     private readonly Collider2D[] _separationHits = new Collider2D[24];
 
+    private bool _useWaypointArray;
+
     public EnemyPathing PatrolPath => patrolPath;
     public int CurrentWaypointIndex => currWaypointIndex;
+
+    /// <summary>For save/load clamping: array length or A* list count.</summary>
+    public int GetActivePatrolPointCount()
+    {
+        if (UsesWaypointArray() && patrolWaypoints != null)
+            return patrolWaypoints.Length;
+        if (patrolPath != null && patrolPath.GetTransformList() != null)
+            return patrolPath.GetTransformList().Count;
+        return 0;
+    }
 
     private void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
         _selfCollider = GetComponent<Collider2D>();
-        ResolvePatrolPath();
+        _useWaypointArray = UsesWaypointArray();
+        if (!_useWaypointArray)
+            ResolvePatrolPath();
         ResetWaypointToPatrolStart();
 
         if (togglePathDist)
             StartCoroutine(DisplayPathDist());
+    }
+
+    private bool UsesWaypointArray()
+    {
+        if (patrolWaypoints == null || patrolWaypoints.Length == 0)
+            return false;
+        for (int i = 0; i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i] != null)
+                return true;
+        }
+        return false;
     }
 
     private void ResolvePatrolPath()
@@ -73,6 +103,12 @@ public class EnemyPatrol : MonoBehaviour
 
     private void ResetWaypointToPatrolStart()
     {
+        if (_useWaypointArray)
+        {
+            currWaypointIndex = FirstValidWaypointIndex(0);
+            return;
+        }
+
         if (patrolPath == null || patrolPath.GetTransformList() == null || patrolPath.GetTransformList().Count == 0)
         {
             currWaypointIndex = 0;
@@ -80,6 +116,35 @@ public class EnemyPatrol : MonoBehaviour
         }
 
         currWaypointIndex = patrolPath.GetTransformList().Count - 1;
+    }
+
+    private int FirstValidWaypointIndex(int startSearch)
+    {
+        if (patrolWaypoints == null)
+            return 0;
+        for (int i = startSearch; i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i] != null)
+                return i;
+        }
+        for (int i = 0; i < startSearch && i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i] != null)
+                return i;
+        }
+        return 0;
+    }
+
+    private int NextWaypointIndexAfter(int current)
+    {
+        if (patrolWaypoints == null || patrolWaypoints.Length == 0)
+            return current;
+        for (int i = current + 1; i < patrolWaypoints.Length; i++)
+        {
+            if (patrolWaypoints[i] != null)
+                return i;
+        }
+        return FirstValidWaypointIndex(0);
     }
 
     private IEnumerator DisplayPathDist()
@@ -98,11 +163,61 @@ public class EnemyPatrol : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
 
+    private void FixedUpdate()
+    {
+        if (health <= 0)
+            return;
         Move();
     }
 
     private void Move()
+    {
+        if (_useWaypointArray)
+            MoveWaypointLoop();
+        else
+            MovePathing();
+    }
+
+    private void MoveWaypointLoop()
+    {
+        if (patrolWaypoints == null || currWaypointIndex < 0 || currWaypointIndex >= patrolWaypoints.Length)
+            return;
+
+        Transform wp = patrolWaypoints[currWaypointIndex];
+        if (wp == null)
+        {
+            currWaypointIndex = NextWaypointIndexAfter(currWaypointIndex);
+            return;
+        }
+
+        Vector2 pos = myBody.position;
+        Vector2 target = wp.position;
+        Vector2 toTarget = target - pos;
+        float reach = Mathf.Max(0.02f, reachDistance);
+        float reachSq = reach * reach;
+
+        Vector2 desiredDir = toTarget.sqrMagnitude > 1e-8f ? toTarget.normalized : Vector2.zero;
+        // Near the waypoint, separation can push the body so it never enters the tiny reach radius.
+        float relaxSeparationSq = (reach * 4f) * (reach * 4f);
+        Vector2 direction = toTarget.sqrMagnitude <= relaxSeparationSq
+            ? desiredDir
+            : ApplySeparation(desiredDir);
+
+        if (direction.sqrMagnitude < 1e-8f)
+            direction = desiredDir;
+
+        Vector2 nextPos = pos + direction * (speed * Time.fixedDeltaTime);
+        myBody.MovePosition(nextPos);
+
+        pos = myBody.position;
+        toTarget = target - pos;
+        if (toTarget.sqrMagnitude <= reachSq)
+            currWaypointIndex = NextWaypointIndexAfter(currWaypointIndex);
+    }
+
+    private void MovePathing()
     {
         if (patrolPath == null || patrolPath.GetTransformList() == null || patrolPath.GetTransformList().Count == 0)
             return;
@@ -114,13 +229,25 @@ public class EnemyPatrol : MonoBehaviour
         if (wp == null)
             return;
 
-        Vector3 targetPos = wp.position;
-        Vector3 direction = (targetPos - transform.position).normalized;
-        direction = ApplySeparation(direction);
-        Vector3 movePosition = transform.position + speed * Time.deltaTime * direction;
-        myBody.MovePosition(movePosition);
+        Vector2 pos = myBody.position;
+        Vector2 target = wp.position;
+        Vector2 toTarget = target - pos;
+        float reach = Mathf.Max(0.02f, reachDistance);
+        float reachSq = reach * reach;
 
-        if (Vector3.Distance(transform.position, targetPos) < reachDistance)
+        Vector2 desiredDir = toTarget.sqrMagnitude > 1e-8f ? toTarget.normalized : Vector2.zero;
+        float relaxSeparationSq = (reach * 4f) * (reach * 4f);
+        Vector2 direction = toTarget.sqrMagnitude <= relaxSeparationSq
+            ? desiredDir
+            : ApplySeparation(desiredDir);
+        if (direction.sqrMagnitude < 1e-8f)
+            direction = desiredDir;
+
+        myBody.MovePosition(pos + direction * (speed * Time.fixedDeltaTime));
+
+        pos = myBody.position;
+        toTarget = target - pos;
+        if (toTarget.sqrMagnitude <= reachSq)
         {
             currWaypointIndex--;
             if (currWaypointIndex < 0)
@@ -140,6 +267,24 @@ public class EnemyPatrol : MonoBehaviour
     {
         finalDist = 0;
         inspectIndex = currWaypointIndex;
+
+        if (_useWaypointArray && patrolWaypoints != null && inspectIndex >= 0 && inspectIndex < patrolWaypoints.Length
+            && patrolWaypoints[inspectIndex] != null)
+        {
+            finalDist = Vector3.Distance(transform.position, patrolWaypoints[inspectIndex].position);
+            int cur = inspectIndex;
+            do
+            {
+                int next = NextWaypointIndexAfter(cur);
+                Transform a = patrolWaypoints[cur];
+                Transform b = patrolWaypoints[next];
+                if (a != null && b != null)
+                    finalDist += Vector3.Distance(a.position, b.position);
+                cur = next;
+            } while (cur != inspectIndex);
+
+            return finalDist;
+        }
 
         if (patrolPath == null || patrolPath.GetTransformList() == null || inspectIndex < 0)
             return 0f;
@@ -207,6 +352,12 @@ public class EnemyPatrol : MonoBehaviour
         if (!showPatrolPathGizmos)
             return;
 
+        if (patrolWaypoints != null && HasAnyWaypoint(patrolWaypoints))
+        {
+            DrawWaypointArrayGizmos(patrolWaypoints);
+            return;
+        }
+
         EnemyPathing path = patrolPath;
         if (path == null && autoFindPathFindingByName)
         {
@@ -254,6 +405,60 @@ public class EnemyPatrol : MonoBehaviour
                 Gizmos.color = Color.white;
                 Gizmos.DrawWireSphere(pts[idx].position, gizmoWaypointRadius * 1.35f);
             }
+        }
+    }
+
+    private static bool HasAnyWaypoint(Transform[] arr)
+    {
+        if (arr == null)
+            return false;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] != null)
+                return true;
+        }
+        return false;
+    }
+
+    private void DrawWaypointArrayGizmos(Transform[] pts)
+    {
+        int first = -1, last = -1;
+        for (int i = 0; i < pts.Length; i++)
+        {
+            if (pts[i] == null)
+                continue;
+            if (first < 0)
+                first = i;
+            last = i;
+        }
+
+        Gizmos.color = gizmoStoredPathColor;
+        Transform prev = null;
+        for (int i = 0; i < pts.Length; i++)
+        {
+            if (pts[i] == null)
+                continue;
+            if (prev != null)
+                Gizmos.DrawLine(prev.position, pts[i].position);
+            prev = pts[i];
+        }
+        if (first >= 0 && last >= 0 && first != last && pts[first] != null && pts[last] != null)
+            Gizmos.DrawLine(pts[last].position, pts[first].position);
+
+        for (int i = 0; i < pts.Length; i++)
+        {
+            if (pts[i] == null)
+                continue;
+            Gizmos.color = i == first
+                ? new Color(0.3f, 1f, 0.5f, 0.9f)
+                : (i == last ? new Color(1f, 0.4f, 0.3f, 0.9f) : gizmoPatrolTravelColor);
+            Gizmos.DrawWireSphere(pts[i].position, gizmoWaypointRadius);
+        }
+
+        if (Application.isPlaying && enabled && currWaypointIndex >= 0 && currWaypointIndex < pts.Length && pts[currWaypointIndex] != null)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(pts[currWaypointIndex].position, gizmoWaypointRadius * 1.35f);
         }
     }
 }

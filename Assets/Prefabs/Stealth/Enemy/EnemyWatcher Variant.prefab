@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWatcher Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3208347000967141564, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
+      propertyPath: reachDistance
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3602747758012533136, guid: 9a782fad22586f84b960d0ac1834eade, type: 3}
       propertyPath: bulwarkPrefab
       value: 

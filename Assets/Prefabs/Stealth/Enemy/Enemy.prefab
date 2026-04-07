@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad352f5442d9d9844a1f66e85af7407d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
+  patrolWaypoints: []
   patrolPath: {fileID: 0}
   autoFindPathFindingByName: 1
   pathFindingObjectName: PathFinding
@@ -299,7 +300,7 @@ MonoBehaviour:
   attackDamage: 1
   attackInterval: 1
   chaseLoseSightDuration: 10.6
-  patrolBehaviour: {fileID: 0}
+  patrolBehaviour: {fileID: 3208347000967141564}
   onEnterSuspicious:
     m_PersistentCalls:
       m_Calls: []

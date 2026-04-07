@@ -60,19 +60,9 @@ Kego Wigwas
 Hari Vallath
 
 
-
 ### VOICE CAST
 
-Watcher – TBD
-
-Sprinter – TBD
-
-Bulwark – TBD
-
-Human Scout – Talha Hasan
-
-Human Commander – Kego Wigwas
-<!-- Fix cast names -->
+Enemies – Talha Hasan
 
 
 
@@ -110,13 +100,13 @@ Hari Vallath
 
 
 
-#### Systems Designer
+#### Level Designer – Stealth
 Hari Vallath
 
-#### Level Designer
-Kego Wigwas
+#### Level Designer – Tower-Defense 
+Kego Wigwas & Mishaal Patel
 
-#### UI Designer
+#### System & UI Designer
 Hari Vallath
 
 

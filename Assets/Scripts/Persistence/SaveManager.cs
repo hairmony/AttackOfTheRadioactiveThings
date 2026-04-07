@@ -1004,7 +1004,6 @@ public static class SceneEnemySave
 
     static readonly FieldInfo PtHealth = TPatrol.GetField("health", BF);
     static readonly FieldInfo PtIdx = TPatrol.GetField("currWaypointIndex", BF);
-    static readonly FieldInfo PtPath = TPatrol.GetField("patrolPath", BF);
 
     public static EnemyPatrolSaveData CapturePatrol(EnemyPatrol ep)
     {
@@ -1022,9 +1021,9 @@ public static class SceneEnemySave
             return;
         PtHealth.SetValue(ep, d.health);
         int idx = d.currWaypointIndex;
-        if (PtPath != null && PtPath.GetValue(ep) is EnemyPathing path
-            && path.GetTransformList() != null && path.GetTransformList().Count > 0)
-            idx = Mathf.Clamp(idx, 0, path.GetTransformList().Count - 1);
+        int n = ep != null ? ep.GetActivePatrolPointCount() : 0;
+        if (n > 0)
+            idx = Mathf.Clamp(idx, 0, n - 1);
         PtIdx.SetValue(ep, idx);
     }
 
