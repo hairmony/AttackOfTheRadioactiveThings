@@ -53,6 +53,21 @@ public class EnemyPatrol : MonoBehaviour
     public EnemyPathing PatrolPath => patrolPath;
     public int CurrentWaypointIndex => currWaypointIndex;
 
+    /// <summary>
+    /// True when there is a real route to follow (waypoints or generated A* points).
+    /// When false, <see cref="EnemyAI"/> should run idle look-around even if this component is enabled.
+    /// </summary>
+    public bool HasActivePatrolRoute()
+    {
+        if (!enabled)
+            return false;
+        if (_useWaypointArray)
+            return true;
+        return patrolPath != null
+            && patrolPath.GetTransformList() != null
+            && patrolPath.GetTransformList().Count > 0;
+    }
+
     /// <summary>For save/load clamping: array length or A* list count.</summary>
     public int GetActivePatrolPointCount()
     {

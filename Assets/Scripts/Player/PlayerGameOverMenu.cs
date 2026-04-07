@@ -19,7 +19,7 @@ public sealed class PlayerGameOverMenu : MonoBehaviour
     [Tooltip("If last level is unknown, load this (e.g. MainMenu).")]
     [SerializeField] string fallbackSceneName = "MainMenu";
 
-    [Tooltip("Delete saved layout JSON for the retry level before loading (fresh layout).")]
+    [Tooltip("Delete saved layout for non-stealth retries (TD, etc.). Stealth levels keep their layout JSON.")]
     [SerializeField] bool deleteLayoutSaveForRetryLevel = true;
 
     [Tooltip("Clear SceneNavigator history so back-stack does not point at Game Over.")]
@@ -72,7 +72,7 @@ public sealed class PlayerGameOverMenu : MonoBehaviour
             return;
         }
 
-        if (deleteLayoutSaveForRetryLevel)
+        if (deleteLayoutSaveForRetryLevel && SaveManager.ShouldDeleteLayoutSaveOnGameOverRetry(retry))
         {
             try
             {

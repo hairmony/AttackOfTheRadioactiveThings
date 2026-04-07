@@ -333,8 +333,8 @@ public class EnemyAI : MonoBehaviour
         switch (_state)
         {
             case State.Idle:
-                // Only do idle in-place look if patrol is not currently driving movement.
-                if (patrolBehaviour == null || !patrolBehaviour.enabled)
+                // Idle sway only when no patrol is driving movement (or patrol has no route yet).
+                if (ShouldRunIdleLookAroundWhileIdle())
                     _movement.IdleLookAround(Time.fixedDeltaTime);
                 break;
             case State.Suspicious:
@@ -347,6 +347,18 @@ public class EnemyAI : MonoBehaviour
                 _movement.ChasePlayer(_vision.PlayerTransform.position);
                 break;
         }
+    }
+
+    /// <summary>
+    /// Idle head/body sway when standing: skip only if an enabled patrol is actually following a route.
+    /// </summary>
+    private bool ShouldRunIdleLookAroundWhileIdle()
+    {
+        if (patrolBehaviour == null || !patrolBehaviour.enabled)
+            return true;
+        if (patrolBehaviour is EnemyPatrol ep)
+            return !ep.HasActivePatrolRoute();
+        return false;
     }
 
     private bool IsSprinterFlow() => _sprinterFlow;

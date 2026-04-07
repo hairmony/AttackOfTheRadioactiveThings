@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using UnityEditor;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -167,12 +164,9 @@ public class Turret : MonoBehaviour
         else return false;
     }
 
-    //The function below shows the tower's range in the editor, but not during gameplay
-    //Should be changed at some point
-
     protected void OnDrawGizmosSelected()
     {
-        Handles.color = Color.darkOrange;
-        Handles.DrawWireDisc(transform.position, transform.forward, range);
+        Gizmos.color = new Color(1f, 0.55f, 0.1f, 0.85f);
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

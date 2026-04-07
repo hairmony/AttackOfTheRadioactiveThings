@@ -1,8 +1,4 @@
-using System;
-using TMPro;
-using UnityEditor.Rendering.Universal;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
 
 public class TDObjectiveManager : MonoBehaviour
 {

@@ -935,6 +935,18 @@ public class SaveManager : MonoBehaviour
 
     /// <summary>Full path to the JSON file for a scene (for debugging or file browsers).</summary>
     public static string GetSavedLayoutPathForScene(string sceneName) => GetFilePath(sceneName);
+
+    /// <summary>
+    /// Game Over → Retry: stealth scenes keep their layout JSON (world/enemy state). TD and other scenes delete theirs so tower defense does not persist on retry.
+    /// </summary>
+    public static bool ShouldDeleteLayoutSaveOnGameOverRetry(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+            return true;
+        if (sceneName.IndexOf("Stealth", StringComparison.OrdinalIgnoreCase) >= 0)
+            return false;
+        return true;
+    }
 }
 
 /// <summary>Patrol fields persisted in scene JSON (written by <see cref="SceneEnemySave"/>).</summary>

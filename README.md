@@ -59,4 +59,10 @@ You can now press **Play** in the Editor to run the project.
 
 - Hariharan Vallath
 - Mishaal Patel
+ty |
+
+## Authors
+
+- Hariharan Vallath
+- Mishaal Patel
 - Kego Wigwas

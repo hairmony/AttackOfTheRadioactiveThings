@@ -26,7 +26,7 @@ public class SceneNavigator : MonoBehaviour
     [SerializeField] string settingsSceneName = "SettingsMenu";
 
     [Header("Game over retry")]
-    [Tooltip("When using GoBackToPreviousSceneGameOver, delete saved layout for the level so the run restarts fresh.")]
+    [Tooltip("When using GoBackToPreviousSceneGameOver, delete saved layout for non-stealth levels (TD etc.). Stealth levels always keep layout.")]
     [SerializeField] bool deleteLayoutSaveOnGameOverRetry = true;
 
     /// <summary>Remembers the active scene, then loads <paramref name="sceneName"/> (single mode — replaces current).</summary>
@@ -114,8 +114,8 @@ public class SceneNavigator : MonoBehaviour
 
     /// <summary>
     /// Hook this to the Game Over retry button. Uses <see cref="PlayerTracker.GetLastLevelScene"/> (set on death),
-    /// otherwise pops one entry from history if any. Deletes layout save when <see cref="deleteLayoutSaveOnGameOverRetry"/> is on,
-    /// clears history, then loads the level. If nothing is found, loads <see cref="backFallbackSceneName"/>.
+    /// otherwise pops one entry from history if any. Deletes layout save for non-stealth targets when <see cref="deleteLayoutSaveOnGameOverRetry"/> is on
+    /// (see <see cref="SaveManager.ShouldDeleteLayoutSaveOnGameOverRetry"/>), clears history, then loads the level. If nothing is found, loads <see cref="backFallbackSceneName"/>.
     /// </summary>
     public void GoBackToPreviousSceneGameOver()
     {
@@ -134,7 +134,7 @@ public class SceneNavigator : MonoBehaviour
             return;
         }
 
-        if (deleteLayoutSaveOnGameOverRetry)
+        if (deleteLayoutSaveOnGameOverRetry && SaveManager.ShouldDeleteLayoutSaveOnGameOverRetry(target))
         {
             try
             {
